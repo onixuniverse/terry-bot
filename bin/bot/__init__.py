@@ -6,7 +6,6 @@ from bin.bot.config import PREFIX, OWNER_IDS
 
 COGS = [path.split('\\')[-1][:-3] for path in glob('./bin/cogs/*.py')]
 
-
 class Bot(Bot):
     def __init__(self):
         self.PREFIX = PREFIX
@@ -22,6 +21,7 @@ class Bot(Bot):
         self.VERSION = version
         
         print('Setuping cogs...')
+        self.setup()
         
         with open('data/token', 'r') as tf:
             self.TOKEN = tf.read()

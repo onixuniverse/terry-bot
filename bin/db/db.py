@@ -1,7 +1,7 @@
 import psycopg2
 from discord.ext.commands.core import command
 
-from bin.bot.db_keys import dbName, dbUser, dbPass, dbHost
+from data.db_keys import dbName, dbUser, dbPass, dbHost
 
 
 conn = psycopg2.connect(
@@ -14,24 +14,27 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 
-def commit():
+async def commit():
     conn.commit()
     
-def close():
+async def close():
     conn.close()
     
-def field(command, *values):
+async def field(command, *values):
     cur.execute(command, tuple(values))
     
     if (fetch := cur.fetchone()):
         return fetch[0]
     
-def record(command, *values):
+async def record(command, *values):
     cur.execute(command, tuple(values))
     
     return cur.fetchone()
 
-def records(command, *values):
+async def records(command, *values):
     cur.execute(command, tuple(values))
     
     return cur.fetchall()
+
+async def execute(command, *values):
+	cur.execute(command, tuple(values))
