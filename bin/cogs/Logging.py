@@ -1,4 +1,7 @@
+from discord import Embed
 from discord.ext.commands import Cog, command
+
+from bin.utils import get_channel
 
 
 class Logging(Cog):
@@ -7,19 +10,39 @@ class Logging(Cog):
     
     @Cog.listener()
     async def on_member_join(self, member):
-        pass
+        channel = get_channel(member.guild.id)
+        
+        emb = Embed(color=0x25db44,
+                    title='Логирование')
+        emb.add_field(name='Присоединился к серверу', value=member.mention)
+        await channel.send(embed=emb)
     
     @Cog.listener()
     async def on_member_remove(self, member):
-        pass
+        channel = get_channel(member.guild.id)
+        
+        emb = Embed(color=0x25db44,
+                    title='Логирование')
+        emb.add_field(name='Вышел с сервера', value=member.mention)
+        await channel.send(embed=emb)
     
     @Cog.listener()
-    async def on_member_ban(self, member):
-        pass
+    async def on_member_ban(self, guild, user):
+        channel = get_channel(guild.id)
+        
+        emb = Embed(color=0x25db44,
+                    title='Логирование')
+        emb.add_field(name='Забанен', value=user.mention)
+        await channel.send(embed=emb)
     
     @Cog.listener()
-    async def on_member_unban(self, member):
-        pass
+    async def on_member_unban(self, guild, user):
+        channel = get_channel(guild.id)
+        
+        emb = Embed(color=0x25db44,
+                    title='Логирование')
+        emb.add_field(name='Разбанен', value=user.mention)
+        await channel.send(embed=emb)
 
 
 def setup(bot):

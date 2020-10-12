@@ -1,7 +1,7 @@
 from discord import Embed
 from discord.ext.commands import Cog, command, group
 
-from ..bot.config import PREFIX
+from ..src.config import PREFIX
 
 
 class Settings(Cog):
