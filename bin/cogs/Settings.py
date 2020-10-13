@@ -1,13 +1,11 @@
-from typing import Text
-from discord import channel
 from loguru import logger
-from discord import Embed, TextChannel
+from discord import Embed, TextChannel, Role
 from discord.ext.commands import Cog, group
 from discord.ext.commands.core import bot_has_permissions, has_permissions
 
 from .. import db
 from ..src.config import PREFIX
-from ..utils import get_channel
+from ..utils import get_channel, get_role
 
 
 class Settings(Cog):
@@ -26,7 +24,8 @@ class Settings(Cog):
             fields = [(':newspaper: Логирование', f'```{PREFIX}settings logging```', False),
                       (':detective: Система "Гость"', f'```{PREFIX}settings guest```', False),
                       (':a: Система "Антимат"', f'```{PREFIX}settings abuse```', False),
-                      (':loudspeaker: Каналы', f'```{PREFIX}settings channel```', False)]
+                      (':loudspeaker: Каналы', f'```{PREFIX}settings channel```', False),
+                      (':scroll: Роли', f'```{PREFIX}settings role```', False)]
             
             for name, value, inline in fields:
                 emb.add_field(name=name, value=value, inline=inline)
@@ -53,7 +52,7 @@ class Settings(Cog):
                 await ctx.send(embed=emb)
             except Exception as err:
                 logger.error(err)
-                await ctx.send('[E] | Что-то пошло не так!')
+                await ctx.send('**[E]** | Что-то пошло не так!')
         else:
             emb = Embed(color=0x6b32a8,
                         title='Настройки – :newspaper: __Логирование__',
@@ -122,7 +121,7 @@ class Settings(Cog):
                 await ctx.send(embed=emb)
             except Exception as err:
                 logger.error(err)
-                await ctx.send('[E] | Что-то пошло не так!')
+                await ctx.send('**[E]** | Что-то пошло не так!')
         else:
             emb = Embed(color=0x6b32a8,
                         title='Настройки – :a: Система "Антимат"',
@@ -154,39 +153,110 @@ class Settings(Cog):
                 
             await ctx.send(embed=emb)
             
-    @channel_system.command()
+    @channel_system.command(name='log',
+                            aliases=['logging', 'logger'])
     @has_permissions(manage_channels=True,
                      manage_messages=True)
-    async def log(self, ctx, channel: TextChannel=None):
+    async def log_channel(self, ctx, channel: TextChannel=None):
         channel_db = await get_channel(ctx.guild.id)
+        
+        try:
+            channel_db_id = channel_db.id
+        except:
+            channel_db_id = None
+            
         if channel:
             try:
-                if channel.id != channel_db.id:
+                if channel.id != channel_db_id:
                     await db.execute('UPDATE channels SET log_ch = %s WHERE guild_id = %s', channel.id, ctx.guild.id)
                     await db.commit()
                     
-                emb = Embed(color=0x6b32a8,
-                            title=':loudspeaker: __Каналы__ – :newspaper: __Логирование__')
-                emb.add_field(name='Установлен новый канал логирования', value=channel.mention)
-                emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
-                
-                await ctx.send(embed=emb)
+                    emb = Embed(color=0x6b32a8,
+                                title=':loudspeaker: __Каналы__ – :newspaper: __Логирование__')
+                    emb.add_field(name='Установлен новый канал логирования', value=channel.mention)
+                    emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
+                    
+                    await ctx.send(embed=emb)
             except Exception as err:
                 logger.error(err)
-                await ctx.send('[E] | Что-то пошло не так!')
+                await ctx.send('**[E]** | Что-то пошло не так!')
             
         else:
+            try:
+                channel_db_mention = channel_db.mention
+            except:
+                channel_db_mention = None
+                
             emb = Embed(color=0x6b32a8,
                         title='**Настройки** – :loudspeaker: __Каналы__ - :newspaper: __Логирование__',
                         description='Настройка канала логирования для данного сервера.')
             emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
-            fields = [('Текущий канал логирования', channel_db.mention, False),
+            fields = [('Текущий канал логирования', channel_db_mention, False),
                       ('Для изменения канала логирования', f'```{PREFIX}settings channel log <#канал/ID>```', False)]
             
             for name, value, inline in fields:
                 emb.add_field(name=name, value=value, inline=inline)
                 
             await ctx.send(embed=emb)
+
+    @send_settings.group(name='role',
+           aliases=['roles'])
+    async def role_system(self, ctx):
+        if not ctx.invoked_subcommand:
+            emb = Embed(color=0x6b32a8,
+                        title='**Настройки** – :scroll: Роли',
+                        description='Настройка ролей для данного сервера.')
+            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
+            fields = [('Для изменения роли гостя', f'```{PREFIX}settings role guest```', False)]
+            
+            for name, value, inline in fields:
+                emb.add_field(name=name, value=value, inline=inline)
+                
+            await ctx.send(embed=emb)
+            
+    @role_system.command(name='guest',
+                         aliases=['guests'])
+    async def guest(self, ctx, role: Role=None):
+        role_db = await get_role(ctx.guild.id)
+         
+        try:
+            role_db_id = role_db.id
+        except:
+            role_db_id = None
+            
+        if role:
+            try:
+                if role.id != role_db_id:
+                    await db.execute('UPDATE roles SET guest_role = %s WHERE guild_id = %s', role.id, ctx.guild.id)
+                    await db.commit()
+                    
+                    emb = Embed(color=0x6b32a8,
+                                title=':scroll: __Роли__ – :detective: Система "Гость"')
+                    emb.add_field(name='Установлена новая роль гостя', value=role.mention)
+                    emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
+                    
+                    await ctx.send(embed=emb)
+            except Exception as err:
+                logger.error(err)
+                await ctx.send('**[E]** | Что-то пошло не так!')
+            
+        else:
+            try:
+                role_db_mention = role_db.mention
+            except:
+                role_db_mention = None
+                
+            emb = Embed(color=0x6b32a8,
+                        title='**Настройки** – :scroll: __Роли__ - :detective: Система "Гость"',
+                        description='Настройка роли гостя для данного сервера.')
+            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
+            fields = [('Текущая роль гостя', role_db_mention, False),
+                    ('Для изменения роли гостя', f'```{PREFIX}settings role guest <@роль/ID>```', False)]
+            for name, value, inline in fields:
+                emb.add_field(name=name, value=value, inline=inline)
+                
+            await ctx.send(embed=emb)
+
 
 def setup(bot):
     bot.add_cog(Settings(bot))
