@@ -1,7 +1,7 @@
 from discord import Embed
 from discord.ext.commands import Cog, command
 
-from bin.utils import get_channel
+from ..utils import get_channel
 
 
 class Logging(Cog):

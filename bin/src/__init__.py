@@ -1,7 +1,7 @@
 from glob import glob
 from discord.ext.commands import Bot
 
-from bin.bot.config import PREFIX, OWNER_IDS
+from .config import PREFIX, OWNER_IDS
 
 
 COGS = [path.split('\\')[-1][:-3] for path in glob('./bin/cogs/*.py')]
