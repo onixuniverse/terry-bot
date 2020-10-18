@@ -6,8 +6,9 @@ class Cog(Cog):
         self.bot = bot
     
     @command(name='function')
-    async def func(self):
+    async def func(self, ctx):
         pass
-        
+
+
 def setup(bot):
     bot.add_cog(Cog(bot))

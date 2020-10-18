@@ -1,5 +1,3 @@
-import discord
-
 from ..src import bot
 from .. import db
 

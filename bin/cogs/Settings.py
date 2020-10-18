@@ -4,7 +4,7 @@ from discord.ext.commands import Cog, group
 from discord.ext.commands.core import bot_has_permissions, has_permissions
 
 from .. import db
-from ..src.config import PREFIX
+from data.config import PREFIX
 from ..utils import get_channel, get_role
 
 
@@ -15,7 +15,7 @@ class Settings(Cog):
     @group(name='settings',
            aliases=['setting', 'options', 'option'])
     @has_permissions(manage_messages=True)
-    async def send_settings(self, ctx):
+    async def get_settings(self, ctx):
         if not ctx.invoked_subcommand:
             emb = Embed(color=0x6b32a8,
                         title='Настройки',
@@ -32,7 +32,7 @@ class Settings(Cog):
             
             await ctx.channel.send(embed=emb)
 
-    @send_settings.command(name='logging',
+    @get_settings.command(name='logging',
                            aliases=['log', 'logger'])
     @has_permissions(manage_guild=True,
                      manage_messages=True)
@@ -67,7 +67,7 @@ class Settings(Cog):
                 
             await ctx.send(embed=emb)
             
-    @send_settings.command(name='guest')
+    @get_settings.command(name='guest')
     @has_permissions(manage_guild=True,
                      manage_roles=True)
     @bot_has_permissions(manage_roles=True)
@@ -102,7 +102,7 @@ class Settings(Cog):
                 
             await ctx.send(embed=emb)
             
-    @send_settings.command(name='abuse')
+    @get_settings.command(name='abuse')
     @has_permissions(manage_guild=True,
                      manage_messages=True)
     async def abuse_system(self, ctx, mode=None):
@@ -136,7 +136,7 @@ class Settings(Cog):
                 
             await ctx.send(embed=emb)
 
-    @send_settings.group(name='channel',
+    @get_settings.group(name='channel',
                            aliases=['channels', 'ch', 'chan'])
     @has_permissions(manage_channels=True,
                      manage_messages=True)
@@ -199,7 +199,7 @@ class Settings(Cog):
                 
             await ctx.send(embed=emb)
 
-    @send_settings.group(name='role',
+    @get_settings.group(name='role',
            aliases=['roles'])
     async def role_system(self, ctx):
         if not ctx.invoked_subcommand:
