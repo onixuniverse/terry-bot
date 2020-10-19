@@ -23,13 +23,14 @@ async def close():
 async def field(command, *values):
     cur.execute(command, tuple(values))
     
-    if (fetch := cur.fetchone()):
-        return fetch[0]
+    if cur.fetchone:
+        return cur.fetchone()[0]
     
 async def record(command, *values):
     cur.execute(command, tuple(values))
     
-    return cur.fetchone()[0]
+    if cur.fetchone:
+        return cur.fetchone()[0]
 
 async def records(command, *values):
     cur.execute(command, tuple(values))
