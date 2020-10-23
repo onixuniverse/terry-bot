@@ -1,0 +1,1 @@
+REGEX = r'\b([НнЗзHhZzXx]?[АаAa@4]?[ХхXxHh]\W*[УуYyUu]\W*[ЙйИиUuIiЕеEeЁёЯя])|\b([БбBb6]\W*[ЛлLl]\W*[Яя]?[ДдТтDdTt]?[Ььb]?)|\b([ЁёЕеEe]\W*[БбBb6ПпPp]?[АаAa@4ТтTt]?[ТтTtАаAa@ЛлLl]?[Ььb]?)|([ПпPpn]\W*[ИиNnIil1]\W*[ДдDdGg]\W*[РрPpRrОоOo0]?[РрPpRr]?)|\b([ЛлLl]\W*[ОоOo0]\W*[ХхXxHh])'

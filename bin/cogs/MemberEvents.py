@@ -14,11 +14,11 @@ class MemberEvents(Cog):
         status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', member.guild.id)
         guest_status = await db.record('SELECT guest FROM configs WHERE guild_id = %s', member.guild.id)
         
-        if status:
+        if status == 'on':
             channel = await get_channel(member.guild.id)
             
             emb = Embed(color=0x21d92d,
-                        title='Пользователь присоеденился к серверу')
+                        title='Пользователь с к серверу')
             emb.add_field(name='Пользователь', value=member.mention, inline=False)
             emb.add_field(name='Никнейм', value=member, inline=False)
             emb.add_field(name='ID', value=member.id, inline=False)
@@ -36,7 +36,7 @@ class MemberEvents(Cog):
     async def on_member_remove(self, member):
         status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', member.guild.id)
         
-        if status:
+        if status == 'on':
             channel = await get_channel(member.guild.id)
             
             emb = Embed(color=0x1c88e6,
@@ -51,7 +51,7 @@ class MemberEvents(Cog):
     async def on_member_ban(self, guild, user):
         status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', guild.id)
         
-        if status:
+        if status == 'on':
             channel = await get_channel(guild.id)
             
             emb = Embed(color=0xe6291c,
@@ -66,7 +66,7 @@ class MemberEvents(Cog):
     async def on_member_unban(self, guild, user):
         status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', guild.id)
         
-        if status:
+        if status == 'on':
             channel = await get_channel(guild.id)
             
             emb = Embed(color=0x8e12cc,

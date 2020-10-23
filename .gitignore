@@ -1,3 +1,7 @@
 db_keys.py
+api_token.json
 token
+sheet_id
 __pycache__/
+tests/
+templates/

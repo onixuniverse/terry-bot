@@ -7,16 +7,14 @@ from data.config import PREFIX, OWNER_IDS
 
 
 COGS = [path.split('\\')[-1][:-3] for path in glob('./bin/cogs/*.py')]
-INTENTS = Intents.all()
 
 
 @logger.catch
 class Bot(Bot):
     def __init__(self):
         self.PREFIX = PREFIX
-        self.INTENTS = INTENTS
         
-        super().__init__(command_prefix=PREFIX, OWNER_IDS=OWNER_IDS, intents=INTENTS)
+        super().__init__(command_prefix=PREFIX, OWNER_IDS=OWNER_IDS, intents=Intents.all())
         
     def setup(self):
         for cog in COGS:

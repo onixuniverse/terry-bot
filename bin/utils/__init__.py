@@ -1,3 +1,7 @@
+import httplib2 
+import apiclient.discovery
+from oauth2client.service_account import ServiceAccountCredentials
+
 from ..src import bot
 from .. import db
 
@@ -18,3 +22,28 @@ async def get_role(guild_id: int):
         role = guild.get_role(role_id)
         
         return role
+
+async def get_timetable(class_id: str=None):
+    if class_id:
+        CREDENTIALS_FILE = 'data/api_token.json'
+        
+        with open('data/sheet_id') as file:
+            spreadsheet_id = file.read()
+
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(
+            CREDENTIALS_FILE,
+            ['https://www.googleapis.com/auth/spreadsheets',
+            'https://www.googleapis.com/auth/drive'])
+        httpAuth = credentials.authorize(httplib2.Http())
+        service = apiclient.discovery.build('sheets', 'v4', http = httpAuth)
+
+        values = service.spreadsheets().values().get(
+            spreadsheetId=spreadsheet_id,
+            range=f'{class_id}!B2:F10',
+            majorDimension='COLUMNS'
+        ).execute()
+
+        try:
+            return values['values']
+        except:
+            return None
