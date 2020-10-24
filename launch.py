@@ -1,6 +1,6 @@
 from bin.src import bot
 
 
-__version__ = '0.1.4'
+__version__ = '0.1.5'
 
 bot.run(__version__)

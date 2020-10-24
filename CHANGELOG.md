@@ -1,5 +1,11 @@
 # Changelog
 
+
+## v0.1.5 – 2020-10-25
+**Added:**
+- Clear chat command
+
+
 ## v0.1.4 – 2020-10-24
 **Added:**
 - More errors handler added
@@ -8,8 +14,8 @@
 **Updated:**
 - Utils update
 
-## v0.1.3 – 2020-10-23
 
+## v0.1.3 – 2020-10-23
 **Added:**
 - Timetables
 - Create ErrorHandler file
