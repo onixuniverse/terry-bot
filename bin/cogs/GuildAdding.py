@@ -1,7 +1,7 @@
+from discord.ext.commands import Cog, command, is_owner
 from loguru import logger
 
 from .. import db
-from discord.ext.commands import Cog, command, is_owner
 
 
 class GuildAdding(Cog):

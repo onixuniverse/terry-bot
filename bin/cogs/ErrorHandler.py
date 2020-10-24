@@ -1,11 +1,44 @@
-from discord.ext.commands import Cog, command
+from discord.errors import Forbidden, HTTPException
+from discord.ext.commands import Cog
+from discord.ext.commands.errors import (BadArgument, BotMissingPermissions,
+                                         CommandNotFound, CommandOnCooldown,
+                                         DisabledCommand, MemberNotFound,
+                                         MissingPermissions,
+                                         MissingRequiredArgument,
+                                         NSFWChannelRequired, RoleNotFound)
+from loguru import logger
+
+IGNORE_EXCPTIONS = [BadArgument, CommandNotFound, DisabledCommand]
 
 
 class ErrorHandler(Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    pass
+    @Cog.listener()
+    async def on_command_error(self, ctx, exc):
+        if any(isinstance(exc, err) for err in IGNORE_EXCPTIONS):
+            pass
+        elif isinstance(exc, MissingPermissions):
+            await ctx.send(f'У тебя нет прав: `{exc.fmt}`!')
+        elif isinstance(exc, BotMissingPermissions):
+            await ctx.send(f'У меня нет прав: `{exc.fmt}`!')
+        elif isinstance(exc, NSFWChannelRequired):
+            await ctx.send(f'У канала `{exc.channel}` нет статуса NSFW!')
+        elif isinstance(exc, MemberNotFound):
+            await ctx.send(f'Пользователь не найден. `{exc.argument}`')
+        elif isinstance(exc, RoleNotFound):
+            await ctx.send(f'Роль не найдена. `{exc.argument}`')
+        elif isinstance(exc, CommandOnCooldown):
+            await ctx.send(f'Команда на кулдауне. Попробуй через: {exc.retry_after:.2f}сек.')
+        elif isinstance(exc, MissingRequiredArgument):
+            await ctx.send(f'Пропущен требуемый аргумент: `{exc.param}`')
+        elif isinstance(exc.original, HTTPException):
+            logger.error(HTTPException)
+        elif isinstance(exc.original, Forbidden):
+            logger.error(Forbidden)
+        else:
+            logger.error(exc)
 
 
 def setup(bot):

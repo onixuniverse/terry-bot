@@ -5,7 +5,7 @@ from discord.ext.commands.core import bot_has_permissions, has_permissions
 
 from .. import db
 from data.config import PREFIX
-from ..utils import get_channel, get_role
+from ..utils import get_channel, get_guest_role
 
 
 class Settings(Cog):
@@ -217,7 +217,7 @@ class Settings(Cog):
     @role_system.command(name='guest',
                          aliases=['guests'])
     async def guest(self, ctx, role: Role=None):
-        role_db = await get_role(ctx.guild.id)
+        role_db = await get_guest_role(ctx.guild.id)
          
         try:
             role_db_id = role_db.id

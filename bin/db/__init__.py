@@ -1,8 +1,6 @@
 import psycopg2
+from data.db_keys import dbHost, dbName, dbPass, dbUser
 from discord.ext.commands.core import command
-
-from data.db_keys import dbName, dbUser, dbPass, dbHost
-
 
 conn = psycopg2.connect(
     database=dbName,

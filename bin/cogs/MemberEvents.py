@@ -1,8 +1,8 @@
 from discord import Embed
 from discord.ext.commands import Cog
 
-from ..utils import get_channel, get_role
 from .. import db
+from ..utils import get_channel, get_guest_role
 
 
 class MemberEvents(Cog):
@@ -26,7 +26,7 @@ class MemberEvents(Cog):
             await channel.send(embed=emb)
         
         if guest_status:
-            role = await get_role(member.guild.id)
+            role = await get_guest_role(member.guild.id)
             if role:
                 reason = 'Роль выдана системой "Гости"'
                 

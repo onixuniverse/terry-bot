@@ -1,11 +1,7 @@
 from discord import Embed, Member, Role
-from discord.ext.commands import Cog
-from discord.ext.commands import command, is_owner, group, cooldown
-from discord.ext.commands import MemberNotFound
-from discord.ext.commands import BucketType
+from discord.ext.commands import (BucketType, Cog, command, cooldown, group,
+                                  is_owner)
 from discord.ext.commands.core import bot_has_permissions, has_permissions
-from discord.ext.commands.errors import CommandOnCooldown
-
 
 from ..src import bot
 
@@ -19,13 +15,12 @@ class SimpleCommands(Cog):
     @has_permissions(manage_roles=True)
     @bot_has_permissions(manage_roles=True)
     async def give_role(self, ctx, member: Member, *roles: Role):
-        if member:
-            await member.add_roles(*roles, reason=f'Выдана: {ctx.message.author}')
+        await member.add_roles(*roles, reason=f'Выдана: {ctx.message.author}')
     
     @group(name='hug')
     @cooldown(1, 5, BucketType.user)
-    async def hugs(self, ctx, member: Member=None):
-        if member and ctx.message.author is not member:
+    async def hugs(self, ctx, member: Member):
+        if ctx.message.author is not member:
             await ctx.send(f'**:hugging: | {ctx.message.author.mention} обнял(а) {member.mention}**')
 
     @command(name='guilds')
