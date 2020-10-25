@@ -6,7 +6,7 @@ from discord.ext.commands.errors import ExtensionNotLoaded
 from discord.flags import Intents
 from loguru import logger
 
-COGS = [path.split('\\')[-1][:-3] for path in glob('./bin/cogs/*.py')]
+COGS = [path.split('\\')[-1][:-3] for path in glob('bin/cogs/*.py')]
 
 
 @logger.catch

@@ -1,11 +1,12 @@
+from typing import Optional
+from data.config import PREFIX
+from discord import Embed, Role, TextChannel
+from discord.ext.commands import (Cog, bot_has_permissions, group,
+                                  has_permissions)
 from loguru import logger
-from discord import Embed, TextChannel, Role
-from discord.ext.commands import Cog, group
-from discord.ext.commands.core import bot_has_permissions, has_permissions
 
 from .. import db
-from data.config import PREFIX
-from ..utils import get_channel, get_guest_role
+from ..utils import get_channel, get_curator_role, get_guest_role
 
 
 class Settings(Cog):
@@ -15,7 +16,7 @@ class Settings(Cog):
     @group(name='settings',
            aliases=['setting', 'options', 'option'])
     @has_permissions(manage_messages=True)
-    async def get_settings(self, ctx):
+    async def send_settings(self, ctx):
         if not ctx.invoked_subcommand:
             emb = Embed(color=0x6b32a8,
                         title='Настройки',
@@ -32,11 +33,10 @@ class Settings(Cog):
             
             await ctx.channel.send(embed=emb)
 
-    @get_settings.command(name='logging',
-                           aliases=['log', 'logger'])
-    @has_permissions(manage_guild=True,
-                     manage_messages=True)
-    async def logging_system(self, ctx, mode=None):
+    @send_settings.command(name='logging', aliases=['log', 'logger'])
+    @has_permissions(manage_guild=True, manage_messages=True)
+    @bot_has_permissions(manage_guild=True, manage_messages=True)
+    async def logging_system(self, ctx, mode: Optional[str]):
         status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', ctx.guild.id)
         if mode == 'on' or mode == 'off':
             try:
@@ -67,11 +67,10 @@ class Settings(Cog):
                 
             await ctx.send(embed=emb)
             
-    @get_settings.command(name='guest')
-    @has_permissions(manage_guild=True,
-                     manage_roles=True)
+    @send_settings.command(name='guest')
+    @has_permissions(manage_guild=True, manage_roles=True)
     @bot_has_permissions(manage_roles=True)
-    async def guest_system(self, ctx, mode=None):
+    async def guest_system(self, ctx, mode: Optional[str]):
         status = await db.record('SELECT guest FROM configs WHERE guild_id = %s', ctx.guild.id)
         if mode == 'on' or mode == 'off':
             try:
@@ -102,10 +101,10 @@ class Settings(Cog):
                 
             await ctx.send(embed=emb)
             
-    @get_settings.command(name='abuse')
-    @has_permissions(manage_guild=True,
-                     manage_messages=True)
-    async def abuse_system(self, ctx, mode=None):
+    @send_settings.command(name='abuse')
+    @has_permissions(manage_guild=True, manage_messages=True)
+    @bot_has_permissions(manage_guild=True, manage_messages=True)
+    async def abuse_system(self, ctx, mode: Optional[str]):
         status = await db.record('SELECT abuse FROM configs WHERE guild_id = %s', ctx.guild.id)
         if mode == 'on' or mode == 'off':
             try:
@@ -136,10 +135,10 @@ class Settings(Cog):
                 
             await ctx.send(embed=emb)
 
-    @get_settings.group(name='channel',
-                           aliases=['channels', 'ch', 'chan'])
-    @has_permissions(manage_channels=True,
-                     manage_messages=True)
+    @send_settings.group(name='channel',
+                         aliases=['channels', 'ch', 'chan'])
+    @has_permissions(manage_channels=True, manage_messages=True)
+    @bot_has_permissions(manage_channels=True, manage_messages=True)
     async def channel_system(self, ctx):
         if not ctx.invoked_subcommand:
             emb = Embed(color=0x6b32a8,
@@ -153,11 +152,10 @@ class Settings(Cog):
                 
             await ctx.send(embed=emb)
             
-    @channel_system.command(name='log',
-                            aliases=['logging', 'logger'])
-    @has_permissions(manage_channels=True,
-                     manage_messages=True)
-    async def log_channel(self, ctx, channel: TextChannel=None):
+    @channel_system.command(name='log', aliases=['logging', 'logger'])
+    @has_permissions(manage_channels=True, manage_messages=True)
+    @bot_has_permissions(manage_channels=True, manage_messages=True)
+    async def log_channel(self, ctx, channel: Optional[TextChannel]):
         channel_db = await get_channel(ctx.guild.id)
         
         try:
@@ -199,24 +197,27 @@ class Settings(Cog):
                 
             await ctx.send(embed=emb)
 
-    @get_settings.group(name='role',
-           aliases=['roles'])
+    @send_settings.group(name='role', aliases=['roles'])
+    @has_permissions(manage_roles=True)
+    @bot_has_permissions(manage_roles=True)
     async def role_system(self, ctx):
         if not ctx.invoked_subcommand:
             emb = Embed(color=0x6b32a8,
                         title='**Настройки** – :scroll: Роли',
                         description='Настройка ролей для данного сервера.')
             emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
-            fields = [('Для изменения роли гостя', f'```{PREFIX}settings role guest```', False)]
+            fields = [('Для изменения роли гостя', f'```{PREFIX}settings role guest```', False),
+                      ('Для изменения роли куратора', f'```{PREFIX}settings role curator```', False)]
             
             for name, value, inline in fields:
                 emb.add_field(name=name, value=value, inline=inline)
                 
             await ctx.send(embed=emb)
             
-    @role_system.command(name='guest',
-                         aliases=['guests'])
-    async def guest(self, ctx, role: Role=None):
+    @role_system.command(name='guest', aliases=['guests'])
+    @has_permissions(manage_roles=True)
+    @bot_has_permissions(manage_roles=True)
+    async def guest(self, ctx, role: Optional[Role]):
         role_db = await get_guest_role(ctx.guild.id)
          
         try:
@@ -232,14 +233,14 @@ class Settings(Cog):
                     
                     emb = Embed(color=0x6b32a8,
                                 title=':scroll: __Роли__ – :detective: Система "Гость"')
-                    emb.add_field(name='Установлена новая роль гостя', value=role.mention)
+                    emb.add_field(name='Установлена новая роль', value=role.mention)
                     emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
                     
                     await ctx.send(embed=emb)
             except Exception as err:
                 logger.error(err)
                 await ctx.send('**[E]** | Что-то пошло не так!')
-            
+                
         else:
             try:
                 role_db_mention = role_db.mention
@@ -250,8 +251,52 @@ class Settings(Cog):
                         title='**Настройки** – :scroll: __Роли__ - :detective: Система "Гость"',
                         description='Настройка роли гостя для данного сервера.')
             emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
-            fields = [('Текущая роль гостя', role_db_mention, False),
-                    ('Для изменения роли гостя', f'```{PREFIX}settings role guest <@роль/ID>```', False)]
+            fields = [('Текущая роль', role_db_mention, False),
+                    ('Для изменения роли', f'```{PREFIX}settings role guest <@роль/ID>```', False)]
+            for name, value, inline in fields:
+                emb.add_field(name=name, value=value, inline=inline)
+                
+            await ctx.send(embed=emb)
+
+    @role_system.command(name='curator', aliases=['curators'])
+    @has_permissions(manage_roles=True)
+    @bot_has_permissions(manage_roles=True)
+    async def curator_role(self, ctx, role: Optional[Role]):
+        role_db = await get_curator_role(ctx.guild.id)
+         
+        try:
+            role_db_id = role_db.id
+        except:
+            role_db_id = None
+            
+        if role:
+            try:
+                if role.id != role_db_id:
+                    await db.execute('UPDATE roles SET curator_role = %s WHERE guild_id = %s', role.id, ctx.guild.id)
+                    await db.commit()
+                    
+                    emb = Embed(color=0x6b32a8,
+                                title=':scroll: __Роли__ – :man_mage: Куратор')
+                    emb.add_field(name='Установлена новая роль', value=role.mention)
+                    emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
+                    
+                    await ctx.send(embed=emb)
+            except Exception as err:
+                logger.error(err)
+                await ctx.send('**[E]** | Что-то пошло не так!')
+                
+        else:
+            try:
+                role_db_mention = role_db.mention
+            except:
+                role_db_mention = None
+                
+            emb = Embed(color=0x6b32a8,
+                        title='**Настройки** – :scroll: __Роли__ - :man_mage: Куратор',
+                        description='Настройка роли куратора для данного сервера.')
+            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
+            fields = [('Текущая роль', role_db_mention, False),
+                    ('Для изменения роли', f'```{PREFIX}settings role curator <@роль/ID>```', False)]
             for name, value, inline in fields:
                 emb.add_field(name=name, value=value, inline=inline)
                 

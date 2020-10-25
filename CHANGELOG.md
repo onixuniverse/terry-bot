@@ -1,5 +1,13 @@
 # Changelog
 
+# v0.1.6 – 2020-10-25
+**Added:**
+- Curator role added
+- Curator settings command
+
+**Updated:**
+- Update DB functions
+
 
 ## v0.1.5 – 2020-10-25
 **Added:**
