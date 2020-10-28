@@ -1,8 +1,16 @@
 # Changelog
 
+## v0.1.7 – 2020-10-28
+**Added:**
+- Get number of week in year
+
+**Updated:**
+- Some updates in get timetable from GSheets
+
+
 ## v0.1.6 – 2020-10-25
 **Added:**
-- Curator role added
+- Curator role
 - Curator settings command
 
 **Updated:**
