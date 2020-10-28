@@ -39,18 +39,25 @@ async def get_curator_role(guild_id: int):
     return curator_role
 
 
-async def week_number():
+async def week_number(next_week):
     today = datetime.today()
     year = today.year
     month = today.month
     day = today.day
-    
+
     number_of_week = date(year=year, month=month, day=day).isocalendar()[1]
+
+    weekday = datetime.isoweekday(today)
+
+    time = int(datetime.time(today).strftime('%H'))
+
+    if (weekday >= 5 and time >= 8) or next_week == True:
+        number_of_week += 1
     
     return number_of_week
 
 
-async def get_timetable(class_id):
+async def get_timetable(class_id, next_week):
     CREDENTIALS_FILE = 'data/api_token.json'
     
     with open('data/sheet_id') as file:
@@ -63,7 +70,7 @@ async def get_timetable(class_id):
     httpAuth = credentials.authorize(httplib2.Http())
     service = apiclient.discovery.build('sheets', 'v4', http = httpAuth)
     
-    week = await week_number()
+    week = await week_number(next_week)
     
     if week % 2 == 1:
         class_id = class_id + '_1'
@@ -77,7 +84,7 @@ async def get_timetable(class_id):
         range=f'{class_id}!B2:G10',
         majorDimension='COLUMNS'
     ).execute()
-
+    
     try:
         return values['values']
     except:
