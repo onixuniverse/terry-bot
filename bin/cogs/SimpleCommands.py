@@ -55,6 +55,17 @@ class SimpleCommands(Cog):
         emb.description = guilds
         
         await ctx.send(embed=emb)
+        
+        
+    @command(name='info', alieases=['infomember'])
+    async def send_info_member(self, ctx):
+        member = ctx.message.author
+        
+        emb = Embed(color=0xff4500)
+        fields = [('', '', True)]
+        
+        for name, value, inline in fields:
+            emb.add_field(name=name, value=value, inline=inline)
 
 
 def setup(bot):

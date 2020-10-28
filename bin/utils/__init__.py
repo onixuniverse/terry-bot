@@ -1,5 +1,8 @@
+from datetime import date, datetime
+
 import apiclient.discovery
 import httplib2
+from loguru import logger
 from oauth2client.service_account import ServiceAccountCredentials
 
 from .. import db
@@ -36,27 +39,46 @@ async def get_curator_role(guild_id: int):
     return curator_role
 
 
-async def get_timetable(class_id: str=None):
-    if class_id:
-        CREDENTIALS_FILE = 'data/api_token.json'
-        
-        with open('data/sheet_id') as file:
-            spreadsheet_id = file.read()
+async def week_number():
+    today = datetime.today()
+    year = today.year
+    month = today.month
+    day = today.day
+    
+    number_of_week = date(year=year, month=month, day=day).isocalendar()[1]
+    
+    return number_of_week
 
-        credentials = ServiceAccountCredentials.from_json_keyfile_name(
-            CREDENTIALS_FILE,
-            ['https://www.googleapis.com/auth/spreadsheets',
-            'https://www.googleapis.com/auth/drive'])
-        httpAuth = credentials.authorize(httplib2.Http())
-        service = apiclient.discovery.build('sheets', 'v4', http = httpAuth)
 
-        values = service.spreadsheets().values().get(
-            spreadsheetId=spreadsheet_id,
-            range=f'{class_id}!B2:F10',
-            majorDimension='COLUMNS'
-        ).execute()
+async def get_timetable(class_id):
+    CREDENTIALS_FILE = 'data/api_token.json'
+    
+    with open('data/sheet_id') as file:
+        spreadsheet_id = file.read()
 
-        try:
-            return values['values']
-        except:
-            return None
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(
+        CREDENTIALS_FILE,
+        ['https://www.googleapis.com/auth/spreadsheets',
+        'https://www.googleapis.com/auth/drive'])
+    httpAuth = credentials.authorize(httplib2.Http())
+    service = apiclient.discovery.build('sheets', 'v4', http = httpAuth)
+    
+    week = await week_number()
+    
+    if week % 2 == 1:
+        class_id = class_id + '_1'
+    elif week % 2 == 0:
+        class_id = class_id + '_2'
+    else:
+        logger.error('Something went wrong.')
+    
+    values = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range=f'{class_id}!B2:G10',
+        majorDimension='COLUMNS'
+    ).execute()
+
+    try:
+        return values['values']
+    except:
+        return None
