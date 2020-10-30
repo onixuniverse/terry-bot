@@ -51,21 +51,20 @@ async def week_number(next_week):
 
     if weekday >= 5 and time >= 8:
         week += 1
-    if next_week == True:
-        week += 1    
-        
-    today = datetime.today()
-    first_day = date(today.year, 1, 1)
+    if next_week:
+        week += 1
 
-    if first_day.weekday() <= 3 :
-        first_day -= timedelta(first_day.weekday())             
+    day = date(today.year, 1, 1)
+
+    if day.weekday() <= 3 :
+        day -= timedelta(day.weekday())             
     else:
-        first_day += timedelta(7 - first_day.weekday())
+        day += timedelta(7 - day.weekday())
         
     dt = timedelta(days=((week - 1) * 7))
 
-    monday = first_day + dt
-    sunday = first_day + dt + timedelta(days=6)
+    monday = (day + dt).strftime('%d.%m.%Y')
+    sunday = (day + dt + timedelta(days=6)).strftime('%d.%m.%Y')
 
     return week, monday, sunday
 
