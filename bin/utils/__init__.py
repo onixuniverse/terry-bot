@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 import apiclient.discovery
 import httplib2
@@ -40,21 +40,34 @@ async def get_curator_role(guild_id: int):
 
 
 async def week_number(next_week):
+    
     today = datetime.today()
-    year = today.year
-    month = today.month
-    day = today.day
+    date_now = date(year=today.year, month=today.month, day=today.day)
 
-    number_of_week = date(year=year, month=month, day=day).isocalendar()[1]
-
+    week = date_now.isocalendar()[1]
     weekday = datetime.isoweekday(today)
 
     time = int(datetime.time(today).strftime('%H'))
 
-    if (weekday >= 5 and time >= 8) or next_week == True:
-        number_of_week += 1
-    
-    return number_of_week
+    if weekday >= 5 and time >= 8:
+        week += 1
+    if next_week:
+        week += 1    
+        
+    today = datetime.today()
+    first_day = date(today.year, 1, 1)
+
+    if first_day.weekday() <= 3 :
+        first_day -= timedelta(first_day.weekday())             
+    else:
+        first_day += timedelta(7 - first_day.weekday())
+        
+    dt = timedelta(days=((week - 1) * 7))
+
+    monday = first_day + dt
+    sunday = first_day + dt + timedelta(days=6)
+
+    return week, monday, sunday
 
 
 async def get_timetable(class_id, next_week):
@@ -70,7 +83,7 @@ async def get_timetable(class_id, next_week):
     httpAuth = credentials.authorize(httplib2.Http())
     service = apiclient.discovery.build('sheets', 'v4', http = httpAuth)
     
-    week = await week_number(next_week)
+    week, monday, sunday = await week_number(next_week)
     
     if week % 2 == 1:
         class_id = class_id + '_1'
@@ -86,6 +99,30 @@ async def get_timetable(class_id, next_week):
     ).execute()
     
     try:
-        return values['values']
+        return values['values'], monday, sunday
     except:
-        return None
+        return None, monday, sunday
+
+async def generate_timetable(class_id, next_week):
+        values, monday, sunday = await get_timetable(class_id, next_week)
+        timetable = {}
+        
+        if values:
+            try:
+                timetable = {
+                    'time': values[0],
+                    'monday': values[1],
+                    'thuesday': values[2],
+                    'wednesday': values[3],
+                    'thursday': values[4],
+                    'friday': values[5],
+                }
+                
+                for table in timetable:
+                    new_table = '\n'.join(timetable[table])
+                    
+                    timetable[table] = new_table
+            except Exception as exc:
+                logger.error(exc)
+                    
+        return timetable, monday, sunday

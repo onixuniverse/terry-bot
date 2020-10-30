@@ -33,6 +33,8 @@ class ErrorHandler(Cog):
             await ctx.send(f'Команда на кулдауне. Попробуй через: {exc.retry_after:.2f}сек.')
         elif isinstance(exc, MissingRequiredArgument):
             await ctx.send(f'Пропущен требуемый аргумент: `{exc.param}`')
+        elif isinstance(exc, DisabledCommand):
+            await ctx.send(f'Команда временно отключена.')
         elif isinstance(exc.original, HTTPException):
             logger.error(HTTPException)
         elif isinstance(exc.original, Forbidden):
