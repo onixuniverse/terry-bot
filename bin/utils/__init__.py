@@ -51,7 +51,7 @@ async def week_number(next_week):
 
     if weekday >= 5 and time >= 8:
         week += 1
-    if next_week:
+    if next_week == True:
         week += 1    
         
     today = datetime.today()
