@@ -14,6 +14,7 @@ class Abusing(Cog):
     
     @Cog.listener()
     async def on_message(self, message):
+        """Antimat system."""
         if not message.author.bot:
             status = await db.record('SELECT abuse FROM configs WHERE guild_id = %s', message.guild.id)
             

@@ -7,12 +7,14 @@ from ..utils import generate_timetable
 
 
 class Timetable(Cog):
+    """Timetable cog"""
     def __init__(self, bot):
         self.bot = bot
     
     @command(name='timetable',
            aliases=['timetables', 't', 'расписание', 'р', 'расп', 'рсп', 'Расписание', 'Р', 'Расп'])
     async def send_timetable(self, ctx, class_id: str=None):
+        """Send timetable for this week."""
         if class_id:
             timetable, monday, sunday = await generate_timetable(class_id, False)
             
@@ -20,7 +22,7 @@ class Timetable(Cog):
                 emb = Embed(color=0xAAFF43, title='Расписание уроков')
                 emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/timetable.png')
                 emb.description = f'Расписание дейстивтельно с {monday} по {sunday}'
-                emb.set_footer(text=f'Чтобы увидеть расписание на следующую неделю введите: {PREFIX}рслед {class_id})')
+                emb.set_footer(text=f'Чтобы увидеть расписание на следующую неделю введите: {PREFIX}рслед {class_id}')
                 
                 fields = [('Время занятий', timetable['time'], True),
                         ('Понедельник', timetable['monday'], True),
@@ -44,8 +46,10 @@ class Timetable(Cog):
     @command(name='timetable_next',
              aliases=['timetablenext', 'tn', 'расписаниеследующее',
                       'рс', 'рслед', 'Рслед', 'РСлед', 'распслед',
-                      'Расписаниеследующее', 'РС', 'Распслед', 'РаспСлед'])
+                      'Расписаниеследующее', 'РС', 'Распслед', 'РаспСлед',
+                      'распс'])
     async def send_timetable_next(self, ctx, class_id: str=None):
+        """Send timetable for next week."""
         if class_id:
             timetable, monday, sunday = await generate_timetable(class_id, True)
             

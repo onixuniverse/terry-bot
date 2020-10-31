@@ -17,6 +17,7 @@ class ErrorHandler(Cog):
     
     @Cog.listener()
     async def on_command_error(self, ctx, exc):
+        """Some errors exceptions."""
         if any(isinstance(exc, err) for err in IGNORE_EXCPTIONS):
             pass
         elif isinstance(exc, MissingPermissions):

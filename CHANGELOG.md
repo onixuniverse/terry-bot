@@ -1,5 +1,13 @@
 # Changelog
 
+# v0.1.10 – 2020-10-31
+**Added:**
+- Timetable for next week
+
+**Updated:**
+- Added action time
+
+
 ## v0.1.7 – 2020-10-28
 **Added:**
 - Get number of week in year

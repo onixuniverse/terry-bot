@@ -11,6 +11,7 @@ class GuildAdding(Cog):
     @command(name='addguild')
     @is_owner()
     async def add_guild_to_db(self, ctx):
+        """Manually adding a guild to the database."""
         results = await db.field('SELECT * FROM configs WHERE guild_id = %s', ctx.guild.id)
         
         if not results:
@@ -30,6 +31,7 @@ class GuildAdding(Cog):
         
     @Cog.listener()
     async def on_guild_join(self, guild):
+        """Auto adding a guild to the database."""
         results = await db.field('SELECT * FROM configs WHERE guild_id = %s', guild.id)
         
         if not results:
