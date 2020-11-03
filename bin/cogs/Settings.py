@@ -1,6 +1,6 @@
 from typing import Optional
 
-from data.config import PREFIX
+from resources.data.config import PREFIX
 from discord import Embed, Role, TextChannel
 from discord.ext.commands import (Cog, bot_has_permissions, group,
                                   has_permissions)

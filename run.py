@@ -1,9 +1,9 @@
 from bin.src import bot
 
 
-# bot version
+# Bot version
 __version__ = '0.1.11'
 
 
-# run bot function
+# Run bot
 bot.run(__version__)
