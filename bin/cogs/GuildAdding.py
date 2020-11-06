@@ -15,7 +15,7 @@ class GuildAdding(Cog):
         results = await db.field('SELECT * FROM configs WHERE guild_id = %s', ctx.guild.id)
         
         if not results:
-            await db.execute('INSERT INTO configs (guild_id, logging, guest, abuse) VALUES(%s, %s, %s, %s)',
+            await db.execute('INSERT INTO configs (guild_id, user_log, guest, abuse) VALUES(%s, %s, %s, %s)',
                             ctx.guild.id, 'off', 'off', 'off')
             await db.execute('INSERT INTO channels (guild_id) VALUES(%s)', ctx.guild.id)
             await db.execute('INSERT INTO roles (guild_id) VALUES(%s)', ctx.guild.id)
@@ -35,7 +35,7 @@ class GuildAdding(Cog):
         results = await db.field('SELECT * FROM configs WHERE guild_id = %s', guild.id)
         
         if not results:
-            await db.execute('INSERT INTO configs (guild_id, logging, guest, abuse) VALUES(%s, %s, %s, %s)',
+            await db.execute('INSERT INTO configs (guild_id, user_log, guest, abuse) VALUES(%s, %s, %s, %s)',
                             guild.id, 'off', 'off', 'off')
             await db.execute('INSERT INTO channels (guild_id) VALUES(%s)', guild.id)
             await db.execute('INSERT INTO roles (guild_id) VALUES(%s)', guild.id)

@@ -1,6 +1,15 @@
 # Changelog
 
-# v0.1.10 – 2020-10-31
+# v0.1.12 – 2020-11-05
+**Added:**
+- Add kick command
+- Add ban command
+
+**Updated:**
+- Little upds
+
+
+## v0.1.10 – 2020-10-31
 **Added:**
 - Timetable for next week
 

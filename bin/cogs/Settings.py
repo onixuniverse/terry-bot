@@ -1,10 +1,10 @@
 from typing import Optional
 
-from resources.data.config import PREFIX
 from discord import Embed, Role, TextChannel
 from discord.ext.commands import (Cog, bot_has_permissions, group,
                                   has_permissions)
 from loguru import logger
+from resources.data.config import PREFIX
 
 from .. import db
 from ..utils import get_channel, get_curator_role, get_guest_role

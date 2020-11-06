@@ -5,7 +5,7 @@ from .. import db
 from ..utils import get_channel, get_guest_role
 
 
-class LoggingSystem(Cog):
+class MemberLogSystem(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -83,4 +83,4 @@ class LoggingSystem(Cog):
 
 
 def setup(bot):
-    bot.add_cog(LoggingSystem(bot))
+    bot.add_cog(MemberLogSystem(bot))
