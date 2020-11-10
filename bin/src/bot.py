@@ -30,7 +30,7 @@ class Bot(Bot):
         logger.info('Setuping cogs...')
         self.setup()
         
-        with open('resources\\data\\tokens\\token', 'r') as tf:
+        with open('resources/data/tokens/token', 'r') as tf:
             self.TOKEN = tf.read()
             
         logger.info('Starting bot...')

@@ -1,6 +1,12 @@
 # Changelog
 
-# v0.1.12 – 2020-11-05
+# v0.1.13 – 2020-11-10
+**Updated:**
+- Updates hierarchy of files
+- Some utils updates
+
+
+## v0.1.12 – 2020-11-05
 **Added:**
 - Add kick command
 - Add ban command

@@ -30,7 +30,7 @@ class Timetable(Cog):
 
 
     @command(name='timetable',
-           aliases=['timetables', 't', 'расписание', 'р', 'расп', 'рсп', 'Расписание', 'Р', 'Расп'])
+           aliases=['timetables', 't', 'расписание', 'р', 'расп', 'рсп', 'Расписание', 'Р', 'Расп', 'p', 'P'])
     async def send_timetable(self, ctx, class_id: str=None):
         """Send timetable for this week."""
         if class_id:
@@ -55,7 +55,7 @@ class Timetable(Cog):
         
     @command(name='timetable_next',
              aliases=['timetablenext', 'tn', 'рс', 'рслед', 'Рслед', 'РСлед', 
-                      'распслед', 'РС', 'Распслед', 'РаспСлед', 'распс'])
+                      'распслед', 'РС', 'Распслед', 'РаспСлед', 'распс', 'pc', 'PC'])
     async def send_timetable_next(self, ctx, class_id: str=None):
         """Send timetable for next week."""
         if class_id:

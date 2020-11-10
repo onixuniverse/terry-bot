@@ -5,7 +5,6 @@ from bin.utils import get_channel
 from discord import Embed, Member, Role
 from discord.ext.commands import (Cog, Greedy, bot_has_permissions, command,
                                   has_permissions, is_owner)
-from discord.ext.commands.core import is_owner
 
 
 class ModerCommand(Cog):
