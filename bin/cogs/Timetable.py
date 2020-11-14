@@ -1,3 +1,4 @@
+from typing import Optional
 from bin.utils import generate_timetable, start_end_week
 from resources.data.config import PREFIX
 from discord import Embed
@@ -5,7 +6,7 @@ from discord.ext.commands import Cog
 from discord.ext.commands.core import command
 
         
-async def _gen_timetable_embed(timetable):
+async def gen_timetable_embed(timetable):
     
     emb = Embed()
     emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/timetable.png')
@@ -29,17 +30,20 @@ class Timetable(Cog):
         self.bot = bot
 
 
-    @command(name='timetable',
-           aliases=['timetables', 't', 'расписание', 'р', 'расп', 'рсп', 'Расписание', 'Р', 'Расп', 'p', 'P'])
-    async def send_timetable(self, ctx, class_id: str=None):
-        """Send timetable for this week."""
+    @command(name='table',
+           aliases=['расписание', 'расп', 'Расписание', 'Расп'],
+           brief='Расписание уроков.')
+    async def send_timetable(self, ctx, class_id: Optional[str]):
+        """Отправляет расписание уроков на текущую неделю.
+        `<class_id>`: класс."""
+        
         if class_id:
             timetable = await generate_timetable(class_id, False)
             
             if timetable:
                 date_monday, date_sunday = await start_end_week(False)
                 
-                emb = await _gen_timetable_embed(timetable)
+                emb = await gen_timetable_embed(timetable)
                 emb.color = 0x1BFF00
                 emb.title = 'Расписание уроков'
                 emb.description = f'Расписание дейстивтельно с {date_monday} по {date_sunday}'
@@ -53,18 +57,19 @@ class Timetable(Cog):
                             'Существующие классы: **5А, 5Б, 5В, 5Г, 6А, 6Б, 6В, 7А, 7Б, 7В, ' + \
                             '8А, 8Б, 8В, 9А, 9Б, 10, 11.**')
         
-    @command(name='timetable_next',
-             aliases=['timetablenext', 'tn', 'рс', 'рслед', 'Рслед', 'РСлед', 
-                      'распслед', 'РС', 'Распслед', 'РаспСлед', 'распс', 'pc', 'PC'])
-    async def send_timetable_next(self, ctx, class_id: str=None):
-        """Send timetable for next week."""
+    @command(name='tablenext',
+             aliases=['рслед', 'Рслед', 'распслед', 'Распслед'],
+             brief='Расписание уроков на следующую неделю.')
+    async def send_timetable_next(self, ctx, class_id: Optional[str]):
+        """Отправляет расписание уроков на следующую неделю.
+        `<class_id>`: класс."""
         if class_id:
             timetable = await generate_timetable(class_id, True)
             
             if timetable:
                 date_monday, date_sunday = await start_end_week(True)
                 
-                emb = await _gen_timetable_embed(timetable)
+                emb = await gen_timetable_embed(timetable)
                 emb.color = 0xFF8F00
                 emb.title = 'Расписание уроков __на следующую неделю__'
                 emb.description = f'Расписание дейстивтельно с {date_monday} по {date_sunday}'

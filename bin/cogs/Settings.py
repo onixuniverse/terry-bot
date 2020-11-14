@@ -14,12 +14,12 @@ class Settings(Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @group(name='settings',
-           aliases=['setting', 'options', 'option'])
+    @group(name='settings', aliases=['options'], brief='Настройки бота.')
     @has_permissions(manage_messages=True)
     @bot_has_permissions(manage_messages=True)
     async def send_settings(self, ctx):
-        """Send settings embed."""
+        """Доступные настройки бота."""
+        
         if not ctx.invoked_subcommand:
             emb = Embed(color=0x6b32a8,
                         title='**Настройки**',

@@ -8,7 +8,7 @@ class GuildAdding(Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @command(name='addguild')
+    @command(name='addguild', hidden=True)
     @is_owner()
     async def add_guild_to_db(self, ctx):
         """Manually adding a guild to the database."""

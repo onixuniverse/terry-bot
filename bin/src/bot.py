@@ -14,7 +14,7 @@ class Bot(Bot):
     def __init__(self):
         self.PREFIX = PREFIX
         
-        super().__init__(command_prefix=PREFIX, OWNER_IDS=OWNER_IDS, intents=Intents.all())
+        super().__init__(command_prefix=PREFIX, OWNER_IDS=OWNER_IDS, intents=Intents.all(), help_command=None)
         
     def setup(self):
         for cog in COGS:

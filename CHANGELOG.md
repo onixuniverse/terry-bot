@@ -1,6 +1,11 @@
 # Changelog
 
-# v0.1.13 – 2020-11-10
+# v0.1.14 – 2020-11-14
+**Added:**
+- Help command
+- Command description
+
+## v0.1.13 – 2020-11-10
 **Updated:**
 - Updates hierarchy of files
 - Some utils updates
