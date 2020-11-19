@@ -18,21 +18,23 @@ class Settings(Cog):
     @has_permissions(manage_messages=True)
     @bot_has_permissions(manage_messages=True)
     async def send_settings(self, ctx):
-        """Доступные настройки бота."""
+        """Доступные настройки бота"""
         
         if not ctx.invoked_subcommand:
             emb = Embed(color=0x6b32a8,
                         title='**Настройки**',
                         description=f'`{PREFIX}settings <настройка>` - для подробной информации.')
             emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
-            fields = [(':newspaper: __Логирование__', f'```{PREFIX}settings logging```', False),
-                      (':detective: __Система "Гость"__', f'```{PREFIX}settings guest```', False),
-                      (':a: __Система "Антимат"__', f'```{PREFIX}settings abuse```', False),
-                      (':loudspeaker: __Каналы__', f'```{PREFIX}settings channel```', False),
-                      (':scroll: __Роли__', f'```{PREFIX}settings role```', False)]
             
-            for name, value, inline in fields:
-                emb.add_field(name=name, value=value, inline=inline)
+            fields = [(':newspaper: __Логирование__', f'```{PREFIX}settings logging```'),
+                      (':detective: __Система "Гость"__', f'```{PREFIX}settings guest```'),
+                      (':a: __Система "Антимат"__', f'```{PREFIX}settings abuse```'),
+                      (':loudspeaker: __Каналы__', f'```{PREFIX}settings channel```'),
+                      (':scroll: __Роли__', f'```{PREFIX}settings role```'),
+                      (':dvd: __Электронная таблица__', f'```{PREFIX}spreadsheet```')]
+            
+            for name, value in fields:
+                emb.add_field(name=name, value=value, inline=False)
             
             await ctx.channel.send(embed=emb)
 

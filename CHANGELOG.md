@@ -1,6 +1,13 @@
 # Changelog
 
-# v0.1.14 – 2020-11-14
+
+## v0.1.16 – 2020-11-19
+
+
+## v0.1.15 – 2020-11-19
+
+
+## v0.1.14 – 2020-11-14
 **Added:**
 - Help command
 - Command description

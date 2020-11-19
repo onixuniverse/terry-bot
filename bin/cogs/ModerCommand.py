@@ -11,12 +11,12 @@ class ModerCommand(Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @command(name='say', brief='Повторяет текст.')
+    @command(name='say', brief='Повторяет текст')
     @has_permissions(send_messages=True, manage_messages=True)
     @bot_has_permissions(send_messages=True, manage_messages=True)
-    async def say_given_text(self, ctx, *, text: Optional[str]):
-        """Отправляет данный текст.
-        `[text]`: отправляемый текст."""
+    async def say_given_text(self, ctx, *, text: str):
+        """Отправляет данный текст
+        `[text]`: отправляемый текст"""
         
         if text:
             await ctx.send(text)
@@ -24,12 +24,12 @@ class ModerCommand(Cog):
             await ctx.send('**[E]** | Нет подходящего текста для отправки.')
     
     @command(name='sayembed', aliases=['sayemb'],
-             brief='Текст в виде врезки.')
+             brief='Текст в виде врезки')
     @has_permissions(send_messages=True, manage_messages=True)
     @bot_has_permissions(send_messages=True, manage_messages=True)
-    async def say_given_text_as_embed(self, ctx, *, text: Optional[str]):
-        """Отправляет данный текст в виде врезки.
-        `[text]`: отправяемый текст."""
+    async def say_given_text_as_embed(self, ctx, *, text: str):
+        """Отправляет данный текст в виде врезки
+        `[text]`: отправяемый текст"""
         
         if text:
             emb = Embed(color=ctx.author.color)
@@ -38,13 +38,13 @@ class ModerCommand(Cog):
         else:
             await ctx.send('**[E]** | Нет подходящего текста для отправки.')
     
-    @command(name='kick', brief='Кик учистника.')
+    @command(name='kick', brief='Кик учистника')
     @has_permissions(kick_members=True)
     @bot_has_permissions(kick_members=True)
     async def kick_member(self, ctx, members: Greedy[Member], *, reason: Optional[str]='Нет видимой причины'):
-        """Кикает пользователя.
-        `<users>`: пользователи.
-        `[reason]`: причина кика.`"""
+        """Кикает пользователя
+        `[members]`: пользователи
+        `<reason>`: причина кика`"""
         
         channel = await get_channel(ctx.guild.id)
         
@@ -62,25 +62,24 @@ class ModerCommand(Cog):
             
             await channel.send(embed=emb)
     
-    @command(name='ban', brief='Бан пользователя.')
+    @command(name='ban', brief='Бан пользователя')
     @has_permissions(ban_members=True)
     @bot_has_permissions(ban_members=True)
     async def ban_member(self, ctx, users: Greedy[Member], *, reason: Optional[str]='Нет видимой причины.'):
-        """Банит пользователя.
-        `<users>`: пользователи.
-        `[reason]`: причина бана.`"""
+        """Банит пользователя
+        `[users]`: пользователи
+        `<reason>`: причина бана`"""
         
         for user in users:
             await user.ban(reason=reason)
             
-    @command(name='clear', aliases=['purge'],
-             brief='Удаление сообщений.')
+    @command(name='clear', aliases=['purge'], brief='Удаление сообщений')
     @has_permissions(manage_messages=True)
     @bot_has_permissions(manage_messages=True)
     async def clear_messages(self, ctx, targets: Greedy[Member], count: Optional[int]=1):
-        """Удалет указаное число сообщений.
-        `<targets>`: пользоватли от которых нужно удалить сообщения.
-        `[count]`: количество удаляемых сообщений. По умолчанию: 1"""
+        """Удалет указаное число сообщений
+        `[targets]`: пользоватли от которых нужно удалить сообщения
+        `<count>`: количество удаляемых сообщений. По умолчанию: 1"""
         
         def _check(message):
             return not len(targets) or message.author in targets
@@ -91,15 +90,14 @@ class ModerCommand(Cog):
             await ctx.send(f'{len(deleted):,} сообщений было удалено.', delete_after=5)
         
         
-    @command(name='addrole', brief='Выдача ролей.')
+    @command(name='addrole', brief='Выдача ролей')
     @has_permissions(manage_roles=True)
     @bot_has_permissions(manage_roles=True)
     async def give_role(self, ctx, member: Greedy[Member], roles: Greedy[Role]):
-        """Выдаёт роли указанным ползователям.
+        """Выдаёт роли указанным ползователям
 
-        `<member>`: пользователи.
-        `<roles>`: роли.
-        """
+        `[member]`: пользователи
+        `[roles]`: роли"""
         await member.add_roles(*roles, reason=f'Выдана: {ctx.message.author}')
 
 def setup(bot):

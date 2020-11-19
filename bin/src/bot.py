@@ -1,3 +1,6 @@
+# Copyright (c) 2020 Maksim Alekseev
+
+
 from glob import glob
 
 from resources.data.config import OWNER_IDS, PREFIX

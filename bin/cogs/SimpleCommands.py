@@ -6,12 +6,12 @@ class SimpleCommands(Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @group(name='hug', brief='Обнимашки.')
+    @group(name='hug', brief='Обнимашки')
     @cooldown(1, 5, BucketType.user)
     async def hugs(self, ctx, member: Member):
-        """Обнимает пользователя.
+        """Обнимает пользователя
         
-        `<member>`: пользователь."""
+        `[member]`: пользователь"""
         
         if ctx.message.author is not member:
             await ctx.send(f'**:hugging: | {ctx.message.author.mention} обнял(а) {member.mention}**')

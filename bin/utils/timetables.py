@@ -1,6 +1,5 @@
 import googleapiclient.discovery
 import httplib2
-from discord.errors import HTTPException
 from loguru import logger
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -8,7 +7,7 @@ from .dates import week_number
 
 
 async def get_timetable(class_id, next_week):
-    CREDENTIALS_FILE = 'resources/data/tokens/api_token.json'
+    CREDENTIALS_FILE = 'resources/data/tokens/googleapi_token.json'
     
     with open('resources/data/sheet_id') as file:
         spreadsheet_id = file.read()
@@ -35,9 +34,9 @@ async def get_timetable(class_id, next_week):
             range=f'{class_id}!B2:G10',
             majorDimension='COLUMNS'
         ).execute()['values']
-    except HTTPException:
+    except Exception as e:
         values = None
-        logger.error()
+        logger.error(e)
     
     return values
 

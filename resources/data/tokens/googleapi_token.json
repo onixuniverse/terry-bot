@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "terrajet-api",
+  "private_key_id": "0e3af52b65a29e38cb0840e7231e9fba2b05cc7b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC4sDy+gq3jn+81\nqUUhUneXVs6cVOuAZCUiCG2obxY5NhRXdZI9YE0mHO+0aK78r5isyKDrSuw1h8AL\nHD7glOzXVhvki4+On3lZCTydwQ1ToIb8ILvhobrmpMyple45Fu3YZqbwQc7/f2AE\nS9qjZ0aVHVyjSGGTd13IVd9Nn/bNjfXqhh2pZW/+lDFy01NUHoIUOW8eKZI7QkdW\n0UkAnmDeC5zMcj+VMxa2CqNyIBichQgU7ndxklXcxT9qZk9NS+r1DLV/J0MFtAnN\nAzLcVETGkMoziQVMisAtCW7cFkjbJxKijD3XF/4Lh6kYQloltudnhizrDCkxsOVw\nraJ773XHAgMBAAECggEAUY4hhM8YEogxjbStvkU4YjAHFKm7RPr0Gs81/UbwvVrQ\nKL7WURwRdV8ZysTfYN35wXLm/IAdRpYni8BxU6Lv4zc3Ifku74Akidi2V8NEK0Wb\n1gJudPiCHA9yAQEgLT2e0gyicz3cNp78u2jzp2yXkolguwnfbMstMqYY8aJNzf69\n+6HEFE+ZiCiVA8qSQBC2yI+XfBVYA6GRZdtG2jEn3uNTMOrOyS3R1b9aQWU+F7eF\nV0Xh6H4I1gZc147fLGosMgOIUr/Ls36pg4b8PuG81uaYzFhfkiBAfbcG8kIm8x+6\nylPwKkm9EyeiD38GIdSrKO8JVvMEbillbfcPkAK8oQKBgQDjPjk5BfGF7M5E+rV+\n79ivau56o25Fa9KiF3RhLK+IY0qhpeS2TG6YIE+KhzMPA0P5U5Ja+ESYB6LjFct3\nPZq6C7ywRMQWpCzlNh1WQQTedSXr2kd7JeNLAYQO8WK5eCaBKEUFWoqxutJP9cQ3\nMZ7kDwCedQ3KJhJT0sLUzPXvEwKBgQDQD2lzQE+YMaufk9NUR6gX3DledL6XAEBd\nLSJpCR1JNgvMg0+VESy1L39MkjA8QmibamTXK/26Qh9mAjL4FvghMw3nPO8X+I8z\nkpywyQsls7fLiLHrJoyvQJ0lhccd1GH/ZWnEsR100k/kjbsNd9ZeKUPmXxjqF6I3\niTam+2sQ/QKBgH+Telq6LHsslC0Dt4tZKgRpexNc11agDvOzSUIY7T8bx1VzJjD2\nPgyn7x/tgUvHYI0ETyFFSnUzrE3i+YSrEEesuTUYliHD7/SK6fN3sz0U9cIwnHrV\nrYJ5imM9P1iyzKMsMXus9jqLkPEVICCAehy9E3Licmhv8VAf/gOsQdIDAoGAeE4h\nFGJAY+l8qnYowVf5y2osxgBNYDTmArqhZgi+JWIZ6nSXJMPcjRvcyOLS/1UK9arM\nilrGiNfJHgvxeuCVM2U5CdeDDOJNs214KwTk7DUB9q+g6S7ONFvxQgwbuZTf4XS7\ndt9PAAjH54lIep4rlyDXQTMFzf5Cb0hpEJ7aJuUCgYEAyXcuqP3SiLCqGLmI0pCD\n55ZuQc2QQ/MYweUf3of3D4AWbwAtpkXRIFBX8CQ7MFDmRdoOWsNapaC6eSNofI4R\nLTy5HeYchujuCgmcCGC6nfCgR9Cfv2d2UI8p5PTVFEuqmv8Eh4H420umsOci7fgk\nhTvxVssnEc1d1rJEw7YVsVQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "service-terrajet@terrajet-api.iam.gserviceaccount.com",
+  "client_id": "107509195777759292262",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/service-terrajet%40terrajet-api.iam.gserviceaccount.com"
+}

@@ -30,14 +30,13 @@ class Timetable(Cog):
         self.bot = bot
 
 
-    @command(name='table',
-           aliases=['расписание', 'расп', 'Расписание', 'Расп'],
-           brief='Расписание уроков.')
+    @command(name='table', aliases=['расписание', 'расп', 'Расписание', 'Расп'],
+             brief='Расписание уроков')
     async def send_timetable(self, ctx, class_id: Optional[str]):
-        """Отправляет расписание уроков на текущую неделю.
-        `<class_id>`: класс."""
+        """Отправляет расписание уроков на текущую неделю
+        `[class_id]`: класс"""
         
-        if class_id:
+        if class_id and ctx.guild.id == 693730890261463050:
             timetable = await generate_timetable(class_id, False)
             
             if timetable:
@@ -57,13 +56,13 @@ class Timetable(Cog):
                             'Существующие классы: **5А, 5Б, 5В, 5Г, 6А, 6Б, 6В, 7А, 7Б, 7В, ' + \
                             '8А, 8Б, 8В, 9А, 9Б, 10, 11.**')
         
-    @command(name='tablenext',
-             aliases=['рслед', 'Рслед', 'распслед', 'Распслед'],
-             brief='Расписание уроков на следующую неделю.')
+    @command(name='tablenext', aliases=['рслед', 'Рслед', 'распслед', 'Распслед'],
+             brief='Расписание уроков на следующую неделю')
     async def send_timetable_next(self, ctx, class_id: Optional[str]):
-        """Отправляет расписание уроков на следующую неделю.
-        `<class_id>`: класс."""
-        if class_id:
+        """Отправляет расписание уроков на следующую неделю
+        `[class_id]`: класс"""
+        
+        if class_id and ctx.guild.id == 693730890261463050:
             timetable = await generate_timetable(class_id, True)
             
             if timetable:

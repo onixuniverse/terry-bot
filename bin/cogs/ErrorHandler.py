@@ -21,9 +21,9 @@ class ErrorHandler(Cog):
         if any(isinstance(exc, err) for err in IGNORE_EXCPTIONS):
             pass
         elif isinstance(exc, MissingPermissions):
-            await ctx.send(f'У тебя нет прав: `{exc.fmt}`!')
+            await ctx.send(f'У тебя нет прав!')
         elif isinstance(exc, BotMissingPermissions):
-            await ctx.send(f'У меня нет прав: `{exc.fmt}`!')
+            await ctx.send(f'У меня нет прав!')
         elif isinstance(exc, NSFWChannelRequired):
             await ctx.send(f'У канала `{exc.channel}` нет статуса NSFW!')
         elif isinstance(exc, MemberNotFound):
