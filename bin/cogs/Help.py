@@ -12,8 +12,7 @@ def syntax(command):
 
     for key, value in command.params.items():
         if key not in ('self', 'ctx'):
-            params.append(f'<{key}>' if 'NoneType' in str(value)
-                          else f'[{key}]')
+            params.append(f'<{key}>' if 'NoneType' in str(value) else f'[{key}]')
 
     params = ' '.join(params)
 
@@ -26,8 +25,7 @@ class Help(Cog):
 
     async def cmd_help(self, ctx, command):
         embed = Embed(title=f'Помощь по команде `{command}`',
-                      description=syntax(command),
-                      color=ctx.author.color)
+                      description=syntax(command), color=ctx.author.color)
         embed.add_field(name='Опиание команды', value=command.help)
         await ctx.send(embed=embed)
 
@@ -38,8 +36,7 @@ class Help(Cog):
             if (command := get(self.bot.commands, name=cmd)):
                 await self.cmd_help(ctx, command)
             else:
-                await ctx.send(f'{ctx.author.mention}, команды {command} не' +
-                               ' существует!')
+                await ctx.send(f'{ctx.author.mention}, команды {command} не существует!')
         else:
             commands = self.bot.commands
             fields = []
@@ -50,12 +47,10 @@ class Help(Cog):
                                    syntax(cmd)))
 
             embed = Embed(title='Помощь',
-                          description='Помощь по командам'
-                          f'{self.bot.user.name}',
+                          description='Помощь по командам {self.bot.user.name}',
                           color=ctx.author.color)
             embed.set_thumbnail(url=ctx.guild.me.avatar_url)
-            embed.set_footer(text='[] - обязательный аргумент команды, <> - '
-                             'необязательный аргумент команды')
+            embed.set_footer(text='[] - обязательный аргумент команды, <> - необязательный аргумент команды')
 
             for name, value in fields:
                 embed.add_field(name=name, value=value, inline=False)

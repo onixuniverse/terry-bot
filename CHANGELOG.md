@@ -4,6 +4,7 @@
 # v0.1.17 – 2020-11-21
 **Updated:**
 - New license
+- Some syntax upds
 
 
 ## v0.1.16 – 2020-11-19

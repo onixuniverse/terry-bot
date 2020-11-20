@@ -43,6 +43,7 @@ class ModerCommand(Cog):
     async def kick_member(self, ctx, members: Greedy[Member], *,
                           reason: Optional[str] = 'Нет видимой причины'):
         """Кикает пользователя
+        
         `[members]`: пользователи
         `<reason>`: причина кика`"""
 
@@ -68,6 +69,7 @@ class ModerCommand(Cog):
     async def ban_member(self, ctx, users: Greedy[Member], *,
                          reason: Optional[str] = 'Нет видимой причины.'):
         """Банит пользователя
+        
         `[users]`: пользователи
         `<reason>`: причина бана`"""
 
