@@ -2,6 +2,10 @@
 
 
 # v0.1.17 – 2020-11-21
+**Added:**
+- Create raw message delete
+- Create raw bulk message delete
+
 **Updated:**
 - New license
 - Some syntax upds

@@ -6,7 +6,7 @@ from discord.ext.commands import Cog
 from .. import db
 
 
-class MemberLogSystem(Cog):
+class MemberLog(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -101,4 +101,4 @@ class MemberLogSystem(Cog):
 
 
 def setup(bot):
-    bot.add_cog(MemberLogSystem(bot))
+    bot.add_cog(MemberLog(bot))
