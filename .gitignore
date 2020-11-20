@@ -5,3 +5,4 @@ sheet_id
 __pycache__/
 tests/
 templates/
+.vscode

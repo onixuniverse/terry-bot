@@ -16,9 +16,10 @@ COGS = [path.split('\\')[-1][:-3] for path in glob('bin/cogs/*.py')]
 class Bot(Bot):
     def __init__(self):
         self.PREFIX = PREFIX
-        
-        super().__init__(command_prefix=PREFIX, OWNER_IDS=OWNER_IDS, intents=Intents.all(), help_command=None)
-        
+
+        super().__init__(command_prefix=PREFIX, OWNER_IDS=OWNER_IDS,
+                         intents=Intents.all(), help_command=None)
+
     def setup(self):
         for cog in COGS:
             try:
@@ -26,20 +27,19 @@ class Bot(Bot):
                 logger.info(f'{cog} loaded')
             except ExtensionNotLoaded as exc:
                 logger.error(exc)
-    
+
     def run(self, version):
         self.VERSION = version
 
         logger.info('Setuping cogs...')
         self.setup()
-        
+
         with open('resources/data/tokens/token', 'r') as tf:
             self.TOKEN = tf.read()
-            
+
         logger.info('Starting bot...')
         super().run(self.TOKEN, reconnect=True)
 
-    
     async def on_ready(self):
         logger.info('Bot ready!')
 

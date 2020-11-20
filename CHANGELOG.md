@@ -1,10 +1,15 @@
 # Changelog
 
 
+# v0.1.17 – 2020-11-21
+
+
 ## v0.1.16 – 2020-11-19
+- Checked issues by flake8
 
 
 ## v0.1.15 – 2020-11-19
+- Checked issues by flake8
 
 
 ## v0.1.14 – 2020-11-14
