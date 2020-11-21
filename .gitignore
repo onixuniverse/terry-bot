@@ -1,8 +1,6 @@
 db_keys.py
-api_token.json
+googleapi_token.json
 token
 sheet_id
 __pycache__/
-tests/
-templates/
 .vscode
