@@ -1,0 +1,5 @@
+discord.py==1.5.1
+psycopg2
+google-api-python-client
+oauth2client
+loguru

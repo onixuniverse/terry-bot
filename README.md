@@ -1,6 +1,6 @@
 # Terry – Discord Bot
 ---------------
-**Version 0.1.16** – [Change log](CHANGELOG.md)
+**Version 0.1.17** – [Change log](CHANGELOG.md)
 
 ## Description
 ### Russian

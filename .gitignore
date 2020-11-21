@@ -1,6 +1,3 @@
-db_keys.py
-googleapi_token.json
-token
-sheet_id
+tokens/
 __pycache__/
-.vscode
+venv/
