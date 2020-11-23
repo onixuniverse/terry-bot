@@ -34,7 +34,7 @@ class MessageLogs(Cog):
                         if message.content:
                             fields.append(('Контент', message.content, False))
 
-                        image_url = message.attachments[0].proxy_url
+                        image_url = message.attachments[0].proxy_url == ''
                         embed.set_image(url=image_url)
                     else:
                         fields.append(('Контент', message.content, False))

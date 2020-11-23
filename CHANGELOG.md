@@ -1,7 +1,14 @@
 # Changelog
 
+## v0.1.18 – 2020-11-23
+**Added:**
+- Direct welcoming messages
 
-# v0.1.17 – 2020-11-21
+**Updated:**
+- Some changes
+
+
+## v0.1.17 – 2020-11-21
 **Added:**
 - Create raw message delete
 - Create raw bulk message delete

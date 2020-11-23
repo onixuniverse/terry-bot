@@ -1,12 +1,11 @@
 from bin.utils.channels import get_channel
-from bin.utils.roles import get_guest_role
 from discord import Embed
 from discord.ext.commands import Cog
 
 from .. import db
 
 
-class MemberLog(Cog):
+class MemberLogs(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -14,7 +13,6 @@ class MemberLog(Cog):
     async def on_member_join(self, member):
         """Logging system. Called when the user logs in to the guild."""
         status = await db.record('SELECT logging FROM configs WHERE  guild_id = %s', member.guild.id)
-        guest_status = await db.record('SELECT guest FROM configs WHERE  guild_id = %s', member.guild.id)
 
         if status == 'on':
             channel = await get_channel(member.guild.id)
@@ -31,12 +29,6 @@ class MemberLog(Cog):
 
             await channel.send(embed=embed)
 
-        if guest_status:
-            role = await get_guest_role(member.guild.id)
-            if role:
-                reason = 'Роль выдана системой "Гости"'
-
-                await member.add_roles(role, reason=reason)
 
     @Cog.listener()
     async def on_member_remove(self, member):
@@ -101,4 +93,4 @@ class MemberLog(Cog):
 
 
 def setup(bot):
-    bot.add_cog(MemberLog(bot))
+    bot.add_cog(MemberLogs(bot))

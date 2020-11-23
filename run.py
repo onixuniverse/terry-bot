@@ -4,7 +4,7 @@ from bin.src import bot
 
 
 # Bot version
-__version__ = '0.1.17'
+__version__ = 'v0.1.18'
 
 
 # Run bot

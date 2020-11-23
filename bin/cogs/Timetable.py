@@ -11,8 +11,7 @@ from resources.data.config import PREFIX
 async def gen_timetable_embed(timetable):
 
     emb = Embed()
-    emb.set_thumbnail(
-        url='https://img.icons8.com/dusk/64/000000/timetable.png')
+    emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/timetable.png')
 
     fields = [('Время занятий', timetable['time'], True),
               ('Понедельник', timetable['monday'], True),
