@@ -26,6 +26,7 @@ class Abusing(Cog):
                     for word in match:
                         if word != '':
                             bad_words.append(word)
+                            
                 if bad_words:
                     log_channel = await get_channel(message.guild.id)
 
