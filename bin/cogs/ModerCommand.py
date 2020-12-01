@@ -1,5 +1,5 @@
 from typing import Optional
-
+from loguru import logger
 from bin.utils.channels import get_channel
 from discord import Embed, Member, Role
 from discord.ext.commands import (Cog, Greedy, bot_has_permissions, command,
