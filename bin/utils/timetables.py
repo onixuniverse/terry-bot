@@ -34,9 +34,9 @@ async def get_timetable(class_id, next_week):
             range=f'{class_id}!B2:G10',
             majorDimension='COLUMNS'
         ).execute()['values']
-    except Exception as e:
+    except Exception as exc:
         values = None
-        logger.error(e)
+        logger.error(exc)
 
     return values
 

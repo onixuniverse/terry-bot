@@ -10,8 +10,9 @@ class Guesting(Cog):
 
     @Cog.listener()
     async def on_member_join(self, member):
-        guest_status = await db.record('SELECT guest FROM configs WHERE  guild_id = %s', member.guild.id)
-        
+        guest_status = await db.record('SELECT guest FROM configs WHERE '
+                                       'guild_id = %s', member.guild.id)
+
         if guest_status:
             role = await get_guest_role(member.guild.id)
             if role:

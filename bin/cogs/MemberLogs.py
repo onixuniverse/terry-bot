@@ -12,7 +12,8 @@ class MemberLogs(Cog):
     @Cog.listener()
     async def on_member_join(self, member):
         """Logging system. Called when the user logs in to the guild."""
-        status = await db.record('SELECT logging FROM configs WHERE  guild_id = %s', member.guild.id)
+        status = await db.record('SELECT logging FROM configs WHERE '
+                                 'guild_id = %s', member.guild.id)
 
         if status == 'on':
             channel = await get_channel(member.guild.id)
@@ -28,7 +29,6 @@ class MemberLogs(Cog):
                 embed.add_field(name=name, value=value, inline=False)
 
             await channel.send(embed=embed)
-
 
     @Cog.listener()
     async def on_member_remove(self, member):

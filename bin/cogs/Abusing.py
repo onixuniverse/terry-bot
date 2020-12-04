@@ -16,7 +16,8 @@ class Abusing(Cog):
     async def on_message(self, message):
         """Antimat system."""
         if not message.author.bot:
-            status = await db.record('SELECT abuse FROM configs WHERE guild_id = %s', message.guild.id)
+            status = await db.record('SELECT abuse FROM configs WHERE guild_id'
+                                     ' = %s', message.guild.id)
 
             if status == 'on':
                 result = re.findall(REGEX, message.content)
@@ -26,7 +27,7 @@ class Abusing(Cog):
                     for word in match:
                         if word != '':
                             bad_words.append(word)
-                            
+
                 if bad_words:
                     log_channel = await get_channel(message.guild.id)
 
@@ -37,7 +38,8 @@ class Abusing(Cog):
                               ('Никнейм', message.author, True),
                               ('ID', message.author.id, True),
                               ('Контент сообщения', message.content, False),
-                              ('Слова нецензурной лексики', ', '.join(bad_words), False)]
+                              ('Слова нецензурной лексики',
+                               ', '.join(bad_words), False)]
 
                     for name, value, inline in fields:
                         embed.add_field(name=name, value=value, inline=inline)

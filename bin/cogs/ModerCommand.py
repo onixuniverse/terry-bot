@@ -43,7 +43,7 @@ class ModerCommand(Cog):
     async def kick_member(self, ctx, members: Greedy[Member], *,
                           reason: Optional[str] = 'Нет видимой причины'):
         """Кикает пользователя
-        
+
         `[members]`: пользователи
         `<reason>`: причина кика`"""
 
@@ -69,7 +69,7 @@ class ModerCommand(Cog):
     async def ban_member(self, ctx, users: Greedy[Member], *,
                          reason: Optional[str] = 'Нет видимой причины.'):
         """Банит пользователя
-        
+
         `[users]`: пользователи
         `<reason>`: причина бана`"""
 
@@ -92,21 +92,24 @@ class ModerCommand(Cog):
         with ctx.channel.typing():
             await ctx.message.delete()
             deleted = await ctx.channel.purge(limit=count, check=_check)
-            await ctx.send(f'{len(deleted):,} сообщений было удалено.', delete_after=5)
+            await ctx.send(f'{len(deleted):,} сообщений было удалено.',
+                           delete_after=5)
 
     @command(name='addrole', brief='Выдача ролей')
     @has_permissions(manage_roles=True)
     @bot_has_permissions(manage_roles=True)
-    async def give_role(self, ctx, roles: Greedy[Role], members: Greedy[Member]):
+    async def give_role(self, ctx, roles: Greedy[Role],
+                        members: Greedy[Member]):
         """Выдаёт роли указанным ползователям
 
         `[member]`: пользователи
         `[roles]`: роли"""
-        
+
         with ctx.channel.typing():
             try:
                 for member in members:
-                        await member.add_roles(*roles, reason=f'Выдана: {ctx.message.author}')
+                    await member.add_roles(*roles, reason=('Выдана:',
+                                           ctx.message.author))
                 await ctx.send(f'Роли выданы {len(members)} участникам.')
             except Exception as exc:
                 logger.error(exc)
