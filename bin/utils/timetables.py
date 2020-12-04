@@ -15,9 +15,9 @@ async def get_timetable(class_id, next_week):
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
         CREDENTIALS_FILE,
         ['https://www.googleapis.com/auth/spreadsheets',
-        'https://www.googleapis.com/auth/drive'])
+         'https://www.googleapis.com/auth/drive'])
     httpAuth = credentials.authorize(httplib2.Http())
-    service = googleapiclient.discovery.build('sheets', 'v4', http = httpAuth)
+    service = googleapiclient.discovery.build('sheets', 'v4', http=httpAuth)
 
     week = await week_number(next_week)
 
