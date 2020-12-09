@@ -3,7 +3,7 @@
 [![Issues](https://img.shields.io/github/issues/onixuniverse/terry-bot)](https://github.com/onixuniverse/terry-bot/issues)
 
 # Terry
-**Version 0.1.18** – [Change log](CHANGELOG.md)
+**Version 0.1.19** – [Change log](CHANGELOG.md)
 
 ### English
 _Comming soon..._

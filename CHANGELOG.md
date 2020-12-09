@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.19 – 2020-12-09
+**Added:**
+- Choice random member from role command
+
+**Updated:**
+- flake8 fix
+
+
 ## v0.1.18 – 2020-11-23
 **Added:**
 - Direct welcoming messages
