@@ -1,5 +1,5 @@
-from .. import db
-from ..src import bot
+import db
+from src import bot
 
 
 async def get_role(guild_id: int, role: str):

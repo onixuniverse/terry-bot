@@ -1,11 +1,10 @@
 import re
 
 from bin.utils.channels import get_channel
+from db import db
 from discord import Embed
 from discord.ext.commands import Cog
 from resources.data.regex import REGEX
-
-from .. import db
 
 
 class Abusing(Cog):
@@ -16,8 +15,8 @@ class Abusing(Cog):
     async def on_message(self, message):
         """Antimat system."""
         if not message.author.bot:
-            status = await db.record('SELECT abuse FROM configs WHERE guild_id'
-                                     ' = %s', message.guild.id)
+            status = await db.record('SELECT abuse FROM configs WHERE '
+                                     'guild_id = %s', message.guild.id)
 
             if status == 'on':
                 result = re.findall(REGEX, message.content)

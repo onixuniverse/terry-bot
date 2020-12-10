@@ -1,4 +1,4 @@
-# Terry - Documentation
+# Terry - Commands (Команды)
 ### English
 _Comming soon..._
 

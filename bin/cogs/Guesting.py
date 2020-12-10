@@ -1,7 +1,7 @@
-from bin.utils.roles import get_guest_role
+from utils.roles import get_guest_role
 from discord.ext.commands import Cog
 
-from .. import db
+from db import db
 
 
 class Guesting(Cog):

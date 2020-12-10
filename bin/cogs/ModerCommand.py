@@ -109,7 +109,8 @@ class ModerCommand(Cog):
             try:
                 for member in members:
                     await member.add_roles(*roles, reason=('Выдана:',
-                                           ctx.message.author))
+                                                           ctx.message.author))
+
                 await ctx.send(f'Роли выданы {len(members)} участникам.')
             except Exception as exc:
                 logger.error(exc)
