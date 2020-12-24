@@ -1,9 +1,11 @@
 from typing import Optional
-from loguru import logger
-from bin.utils.channels import get_channel
+
 from discord import Embed, Member, Role
 from discord.ext.commands import (Cog, Greedy, bot_has_permissions, command,
                                   has_permissions)
+from loguru import logger
+
+from ..utils import get_channel
 
 
 class ModerCommand(Cog):
@@ -40,8 +42,7 @@ class ModerCommand(Cog):
     @command(name='kick', brief='Кик учистника')
     @has_permissions(kick_members=True)
     @bot_has_permissions(kick_members=True)
-    async def kick_member(self, ctx, members: Greedy[Member], *,
-                          reason: Optional[str] = 'Нет видимой причины'):
+    async def kick_member(self, ctx, members: Greedy[Member], *, reason: Optional[str]):
         """Кикает пользователя
 
         `[members]`: пользователи
@@ -66,8 +67,7 @@ class ModerCommand(Cog):
     @command(name='ban', brief='Бан пользователя')
     @has_permissions(ban_members=True)
     @bot_has_permissions(ban_members=True)
-    async def ban_member(self, ctx, users: Greedy[Member], *,
-                         reason: Optional[str] = 'Нет видимой причины.'):
+    async def ban_member(self, ctx, users: Greedy[Member], *, reason: Optional[str]):
         """Банит пользователя
 
         `[users]`: пользователи
@@ -79,8 +79,7 @@ class ModerCommand(Cog):
     @command(name='clear', aliases=['purge'], brief='Удаление сообщений')
     @has_permissions(manage_messages=True)
     @bot_has_permissions(manage_messages=True)
-    async def clear_messages(self, ctx, targets: Greedy[Member],
-                             count: Optional[int] = 1):
+    async def clear_messages(self, ctx, targets: Greedy[Member], count: Optional[int] = 1):
         """Удалет указаное число сообщений(count)
 
         `<targets>`: пользоватли от которых нужно удалить сообщения
@@ -92,8 +91,7 @@ class ModerCommand(Cog):
         with ctx.channel.typing():
             await ctx.message.delete()
             deleted = await ctx.channel.purge(limit=count, check=_check)
-            await ctx.send(f'{len(deleted):,} сообщений было удалено.',
-                           delete_after=5)
+            await ctx.send(f'{len(deleted):,} сообщений было удалено.', delete_after=5)
 
     @command(name='addrole', brief='Выдача ролей')
     @has_permissions(manage_roles=True)
@@ -108,8 +106,7 @@ class ModerCommand(Cog):
         with ctx.channel.typing():
             try:
                 for member in members:
-                    await member.add_roles(*roles, reason=('Выдана:',
-                                                           ctx.message.author))
+                    await member.add_roles(*roles, reason=('Выдана:', ctx.message.author))
 
                 await ctx.send(f'Роли выданы {len(members)} участникам.')
             except Exception as exc:

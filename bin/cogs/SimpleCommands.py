@@ -1,8 +1,7 @@
 from random import choice
-from typing import Optional
 
 from discord import Member, Role
-from discord.ext.commands import BucketType, Cog, command, cooldown
+from discord.ext.commands import BucketType, Cog, Greedy, command, cooldown
 
 
 class SimpleCommands(Cog):
@@ -13,7 +12,6 @@ class SimpleCommands(Cog):
     @cooldown(1, 5, BucketType.user)
     async def hugs(self, ctx, member: Member):
         """Обнимает пользователя
-
         `[member]`: пользователь"""
 
         if ctx.message.author is not member:
@@ -22,34 +20,25 @@ class SimpleCommands(Cog):
 
     @command(name='rand', aliases=['random', 'choice', 'выбрать', 'выбери'],
              brief='Выбирает одного пользователя из всех.')
-    async def random_member(self, ctx, role: Optional[Role]):
+    async def random_member(self, ctx, role: Greedy[Role]):
         """Выбирает одного пользователя из всех. Если не указана роль, то
         выберет из всех пользователей
-
         `[role]`: роль"""
 
-        async def get_random_member(role):
-            members = role.members
+        async def get_random_members(role):
             try:
-                result = choice(members)
+                result = choice(role.members)
             except IndexError:
-                await ctx.send(f'**[E]** | {ctx.author.mention}, пользователи '
-                               'не найдены.')
+                result = None
 
-            return result.mention or None
+            return result
 
         if role:
-            member = await get_random_member(role)
-        elif not role:
-            member = await get_random_member(role=ctx.guild.default_role)
+            member = await get_random_members(role)
+        else:
+            member = await get_random_members(role=ctx.guild.default_role)
 
-        answers = [f'Было очень сложно, но я выбираю тебя: {member}',
-                   f'Я думаю, что ты подойдешь: {member}',
-                   f'{member}, я вызываю тебя!',
-                   f'Мне кажется, что ты будешь лучшим вариантом: {member}']
-        answer = choice(answers)
-
-        await ctx.send(answer)
+        await ctx.send(f'Это лучший вариант: {member}')
 
 
 def setup(bot):

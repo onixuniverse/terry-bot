@@ -1,14 +1,13 @@
 from typing import Optional
 
-from bin.utils.channels import get_channel
-from bin.utils.roles import get_guest_role
 from discord import Embed, Role, TextChannel
 from discord.ext.commands import (Cog, bot_has_permissions, group,
                                   has_permissions)
 from loguru import logger
-from resources.data.config import PREFIX
 
+from resources.data.config import PREFIX
 from .. import db
+from ..utils import get_channel, get_role
 
 
 class Settings(Cog):
@@ -25,21 +24,14 @@ class Settings(Cog):
             emb = Embed(color=0x6b32a8, title='**Настройки**',
                         description=f'`{PREFIX}settings <настройка>` - '
                                     'для подробной информации.')
-            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/'
-                                  'settings.png')
+            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
 
-            fields = [(':newspaper: __Логирование__',
-                       f'```{PREFIX}settings logging```'),
-                      (':detective: __Система "Гость"__',
-                       f'```{PREFIX}settings guest```'),
-                      (':a: __Система "Антимат"__',
-                       f'```{PREFIX}settings abuse```'),
-                      (':loudspeaker: __Каналы__',
-                       f'```{PREFIX}settings channel```'),
-                      (':scroll: __Роли__',
-                       f'```{PREFIX}settings role```'),
-                      (':dvd: __Электронная таблица__',
-                       f'```{PREFIX}spreadsheet```')]
+            fields = [(':newspaper: __Логирование__', f'```{PREFIX}settings logging```'),
+                      (':detective: __Система "Гость"__', f'```{PREFIX}settings guest```'),
+                      (':a: __Система "Антимат"__', f'```{PREFIX}settings abuse```'),
+                      (':loudspeaker: __Каналы__', f'```{PREFIX}settings channel```'),
+                      (':scroll: __Роли__', f'```{PREFIX}settings role```'),
+                      (':dvd: __Электронная таблица__', f'```{PREFIX}spreadsheet```')]
 
             for name, value in fields:
                 emb.add_field(name=name, value=value, inline=False)
@@ -52,35 +44,28 @@ class Settings(Cog):
     async def logging_system(self, ctx, mode: Optional[str]):
         title = ':newspaper: __Логирование__'
 
-        status = await db.record('SELECT logging FROM configs WHERE guild_id'
-                                 ' = %s', ctx.guild.id)
+        status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', ctx.guild.id)
         if mode == 'on' or mode == 'off':
             try:
                 if mode != status:
-                    await db.execute('UPDATE configs SET logging = %s WHERE '
-                                     'guild_id = %s', mode, ctx.guild.id)
+                    await db.execute('UPDATE configs SET logging = %s WHERE guild_id = %s', mode, ctx.guild.id)
                     await db.commit()
 
-                    await ctx.send(f':white_check_mark: | Режим для {title} '
-                                   'изменён на `{mode}`.')
+                    await ctx.send(f':white_check_mark: | Режим для {title} изменён на `{mode}`.')
 
                 else:
-                    await ctx.send(f':x: | Режим `{mode}` для {title} уже '
-                                   'установлен.')
+                    await ctx.send(f':x: | Режим `{mode}` для {title} уже установлен.')
             except Exception as exc:
                 logger.error(exc)
 
         else:
             emb = Embed(color=0x6b32a8,
                         title=f'**Настройки** – {title}',
-                        description='Отправляет информацию о новых'
-                        ' пользователях, вход/выход, баны и тд.')
-            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/'
-                              'settings.png')
+                        description='Отправляет информацию о новых пользователях, вход/выход, баны и тд.')
+            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
 
             fields = [('Текущий режим', f'`{status}`', False),
-                      ('Для изменения режима', f'```{PREFIX}settings logging '
-                       '<режим>```', False),
+                      ('Для изменения режима', f'```{PREFIX}settings logging <режим>```', False),
                       ('Доступные режимы', '`on/off`', False)]
 
             for name, value, inline in fields:
@@ -94,21 +79,17 @@ class Settings(Cog):
     async def guest_system(self, ctx, mode: Optional[str]):
         title = ':detective: __Система "Гость"__'
 
-        status = await db.record('SELECT guest FROM configs WHERE '
-                                 'guild_id = %s', ctx.guild.id)
+        status = await db.record('SELECT guest FROM configs WHERE guild_id = %s', ctx.guild.id)
         if mode == 'on' or mode == 'off':
             try:
                 if mode != status:
-                    await db.execute('UPDATE configs SET guest = %s WHERE '
-                                     'guild_id = %s', mode, ctx.guild.id)
+                    await db.execute('UPDATE configs SET guest = %s WHERE guild_id = %s', mode, ctx.guild.id)
                     await db.commit()
 
-                    await ctx.send(f':white_check_mark: | Режим для {title} '
-                                   'изменён на `{mode}`.')
+                    await ctx.send(f':white_check_mark: | Режим для {title} изменён на `{mode}`.')
 
                 else:
-                    await ctx.send(f':x: | Режим `{mode}` для {title} уже '
-                                   'установлен.')
+                    await ctx.send(f':x: | Режим `{mode}` для {title} уже установлен.')
             except Exception as err:
                 logger.error(err)
                 await ctx.send('[E] | Что-то пошло не так!')
@@ -116,14 +97,11 @@ class Settings(Cog):
         else:
             emb = Embed(color=0x6b32a8,
                         title=f'**Настройки** – {title}',
-                        description='Выдаёт заданную роль для новых '
-                                    'пользователей.')
-            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/'
-                              'settings.png')
+                        description='Выдаёт заданную роль для новых пользователей.')
+            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
 
             fields = [('Текущий режим', f'`{status}`', False),
-                      ('Для изменения режима', f'```{PREFIX}settings guest '
-                       '<режим>```', False),
+                      ('Для изменения режима', f'```{PREFIX}settings guest <режим>```', False),
                       ('Доступные режимы', '`on/off`', False)]
 
             for name, value, inline in fields:
@@ -137,21 +115,17 @@ class Settings(Cog):
     async def abuse_system(self, ctx, mode: Optional[str]):
         title = ':a: __Система "Антимат"__'
 
-        status = await db.record('SELECT abuse FROM configs WHERE '
-                                 'guild_id = %s', ctx.guild.id)
+        status = await db.record('SELECT abuse FROM configs WHERE guild_id = %s', ctx.guild.id)
         if mode == 'on' or mode == 'off':
             try:
                 if mode != status:
-                    await db.execute('UPDATE configs SET abuse = %s WHERE '
-                                     'guild_id = %s', mode, ctx.guild.id)
+                    await db.execute('UPDATE configs SET abuse = %s WHERE guild_id = %s', mode, ctx.guild.id)
                     await db.commit()
 
-                    await ctx.send(f':white_check_mark: | Режим для {title} '
-                                   'изменён на `{mode}`.')
+                    await ctx.send(f':white_check_mark: | Режим для {title} изменён на `{mode}`.')
 
                 else:
-                    await ctx.send(f':x: | Режим `{mode}` для {title} уже '
-                                   'установлен.')
+                    await ctx.send(f':x: | Режим `{mode}` для {title} уже установлен.')
             except Exception as err:
                 logger.error(err)
                 await ctx.send('**[E]** | Что-то пошло не так!')
@@ -159,13 +133,10 @@ class Settings(Cog):
         else:
             emb = Embed(color=0x6b32a8,
                         title=f'**Настройки** – {title}',
-                        description='Система оповещает, если находит маты в '
-                        'сообщениях пользователей.')
-            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/'
-                              'settings.png')
+                        description='Система оповещает, если находит маты в сообщениях пользователей.')
+            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
             fields = [('Текущий режим', f'`{status}`', False),
-                      ('Для изменения режима', f'```{PREFIX}settings abuse '
-                       '<режим>```', False),
+                      ('Для изменения режима', f'```{PREFIX}settings abuse <режим>```', False),
                       ('Доступные режимы', '`on/off`', False)]
 
             for name, value, inline in fields:
@@ -178,11 +149,9 @@ class Settings(Cog):
     @bot_has_permissions(manage_channels=True, manage_messages=True)
     async def channel_system(self, ctx):
         if not ctx.invoked_subcommand:
-            emb = Embed(color=0x6b32a8, title='**Настройки** – :loudspeaker: '
-                        '__Каналы__',
+            emb = Embed(color=0x6b32a8, title='**Настройки** – :loudspeaker: __Каналы__',
                         description='Настройка каналов для данного сервера.')
-            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/'
-                              'settings.png')
+            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
             emb.add_field(name='Для изменения канала логирования',
                           value=f'```{PREFIX}settings channel log```',
                           inline=False)
@@ -195,26 +164,19 @@ class Settings(Cog):
     async def log_channel(self, ctx, channel: Optional[TextChannel]):
         channel_db = await get_channel(ctx.guild.id)
 
-        try:
-            channel_db_id = channel_db.id
-        except Exception:
-            channel_db_id = None
+        channel_db_id = channel_db.id or None
 
         title = ':newspaper: __Логирование__'
 
         if channel:
             try:
                 if channel.id != channel_db_id:
-                    await db.execute('UPDATE channels SET log_ch = %s WHERE '
-                                     'guild_id = %s', channel.id, ctx.guild.id)
+                    await db.execute('UPDATE channels SET log_ch = %s WHERE guild_id = %s', channel.id, ctx.guild.id)
                     await db.commit()
 
-                    emb = Embed(color=0x6b32a8, title=':loudspeaker: '
-                                f'__Каналы__ – {title}')
-                    emb.set_thumbnail(url='https://img.icons8.com/dusk/64/'
-                                      '000000/settings.png')
-                    emb.add_field(name='Установлен новый канал логирования',
-                                  value=channel.mention)
+                    emb = Embed(color=0x6b32a8, title=f':loudspeaker: __Каналы__ – {title}')
+                    emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
+                    emb.add_field(name='Установлен новый канал логирования', value=channel.mention)
 
                     await ctx.send(embed=emb)
 
@@ -223,21 +185,14 @@ class Settings(Cog):
                 await ctx.send('**[E]** | Что-то пошло не так!')
 
         else:
-            try:
-                channel_db_mention = channel_db.mention
-            except Exception:
-                channel_db_mention = None
+            channel_db_mention = channel_db.mention or None
 
-            emb = Embed(color=0x6b32a8, title=f'**Настройки** – {title} - '
-                        ':newspaper: __Логирование__',
-                        description='Настройка канала логирования для данного '
-                        'сервера.')
-            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/'
-                              'settings.png')
+            emb = Embed(color=0x6b32a8, title=f'**Настройки** – {title} - :newspaper: __Логирование__',
+                        description='Настройка канала логирования для данного сервера.')
+            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
 
             fields = [('Текущий канал логирования', channel_db_mention, False),
-                      ('Для изменения канала логирования',
-                       f'```{PREFIX}settings channel log <#канал/ID>```',
+                      ('Для изменения канала логирования', f'```{PREFIX}settings channel log <#канал/ID>```',
                        False)]
 
             for name, value, inline in fields:
@@ -252,14 +207,8 @@ class Settings(Cog):
         if not ctx.invoked_subcommand:
             emb = Embed(color=0x6b32a8, title='**Настройки** – :scroll: Роли',
                         description='Настройка ролей для данного сервера.')
-            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/'
-                              'settings.png')
-
-            fields = [('Для изменения роли гостя', f'```{PREFIX}settings role '
-                       'guest```', False)]
-
-            for name, value, inline in fields:
-                emb.add_field(name=name, value=value, inline=inline)
+            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
+            emb.add_field(name='Для изменения роли гостя', value=f'```{PREFIX}settings role guest```', inline=False)
 
             await ctx.send(embed=emb)
 
@@ -267,27 +216,21 @@ class Settings(Cog):
     @has_permissions(manage_roles=True)
     @bot_has_permissions(manage_roles=True)
     async def guest(self, ctx, role: Optional[Role]):
-        role_db = await get_guest_role(ctx.guild.id)
+        role_db = await get_role(ctx.guild.id, 'guest_role')
 
-        try:
-            role_db_id = role_db.id
-        except Exception:
-            role_db_id = None
+        role_db_id = role_db.id or None
 
         if role:
             try:
                 if role.id != role_db_id:
-                    await db.execute('UPDATE roles SET guest_role = %s WHERE '
-                                     'guild_id = %s', role.id, ctx.guild.id)
+                    await db.execute('UPDATE roles SET guest_role = %s WHERE guild_id = %s', role.id, ctx.guild.id)
                     await db.commit()
 
                     emb = Embed(color=0x6b32a8,
-                                title=':scroll: __Роли__ – :detective: '
-                                      '__Система "Гость"__')
+                                title=':scroll: __Роли__ – :detective: __Система "Гость"__')
                     emb.add_field(name='Установлена новая роль',
                                   value=role.mention)
-                    emb.set_thumbnail(url='https://img.icons8.com/dusk/64/'
-                                          '000000/settings.png')
+                    emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
 
                     await ctx.send(embed=emb)
             except Exception as err:
@@ -295,22 +238,15 @@ class Settings(Cog):
                 await ctx.send('**[E]** | Что-то пошло не так!')
 
         else:
-            try:
-                role_db_mention = role_db.mention
-            except Exception:
-                role_db_mention = None
+            role_db_mention = role_db.mention or None
 
             emb = Embed(color=0x6b32a8,
-                        title='**Настройки** – :scroll: __Роли__ - :detective:'
-                              ' __Система "Гость"__',
-                        description='Настройка роли гостя для данного '
-                                    'сервера.')
-            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/'
-                                  'settings.png')
+                        title='**Настройки** – :scroll: __Роли__ - :detective: __Система "Гость"__',
+                        description='Настройка роли гостя для данного сервера.')
+            emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
 
             fields = [('Текущая роль', role_db_mention, False),
-                      ('Для изменения роли', f'```{PREFIX}settings role guest '
-                       '<@роль/ID>```', False)]
+                      ('Для изменения роли', f'```{PREFIX}settings role guest <@роль/ID>```', False)]
             for name, value, inline in fields:
                 emb.add_field(name=name, value=value, inline=inline)
 

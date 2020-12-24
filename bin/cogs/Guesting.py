@@ -1,7 +1,7 @@
-from utils.roles import get_guest_role
 from discord.ext.commands import Cog
 
-from db import db
+from .. import db
+from ..utils import get_role
 
 
 class Guesting(Cog):
@@ -10,11 +10,10 @@ class Guesting(Cog):
 
     @Cog.listener()
     async def on_member_join(self, member):
-        guest_status = await db.record('SELECT guest FROM configs WHERE '
-                                       'guild_id = %s', member.guild.id)
+        guest_status = await db.record('SELECT guest FROM configs WHERE guild_id = %s', member.guild.id)
 
         if guest_status:
-            role = await get_guest_role(member.guild.id)
+            role = await get_role(member.guild.id, 'guest_role')
             if role:
                 reason = 'Роль выдана системой "Гости"'
 

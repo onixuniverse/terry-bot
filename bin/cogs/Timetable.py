@@ -1,22 +1,20 @@
 from typing import Optional
 
-from bin.utils.dates import start_end_week
-from bin.utils.timetables import generate_timetable
 from discord import Embed
 from discord.ext.commands import Cog
 from discord.ext.commands.core import command
+
 from resources.data.config import PREFIX
+from ..utils import generate_timetable, start_end_week
 
 
 async def gen_timetable_embed(timetable):
-
     emb = Embed()
-    emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/'
-                          'timetable.png')
+    emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/timetable.png')
 
     fields = [('Время занятий', timetable['time'], True),
               ('Понедельник', timetable['monday'], True),
-              ('Вторник', timetable['thuesday'], True),
+              ('Вторник', timetable['thursday'], True),
               ('Среда', timetable['wednesday'], True),
               ('Четверг', timetable['thursday'], True),
               ('Пятница', timetable['friday'], True)]
@@ -29,6 +27,7 @@ async def gen_timetable_embed(timetable):
 
 class Timetable(Cog):
     """Timetable cog"""
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -37,9 +36,7 @@ class Timetable(Cog):
              brief='Расписание уроков')
     async def send_timetable(self, ctx, class_id: Optional[str]):
         """Отправляет расписание уроков на текущую неделю
-
         `[class_id]`: класс"""
-
         if class_id and (ctx.guild.id == 693730890261463050 or
                          ctx.guild.id == 696734117873713172):
             timetable = await generate_timetable(class_id, False)
@@ -50,19 +47,16 @@ class Timetable(Cog):
                 emb = await gen_timetable_embed(timetable)
                 emb.color = 0x1BFF00
                 emb.title = 'Расписание уроков'
-                emb.description = ('Расписание дейстивтельно с '
-                                   f'{date_monday} по {date_sunday}')
-                emb.set_footer(text='Чтобы увидеть расписание на следующую '
-                               f'неделю введите: {PREFIX}распслед {class_id}')
+                emb.description = f'Расписание дейстивтельно с {date_monday} по {date_sunday}'
+                emb.set_footer(text=f'Чтобы увидеть расписание на следующую неделю введите: '
+                                    f'{PREFIX}распслед {class_id}')
 
                 await ctx.send(embed=emb)
             else:
-                await ctx.send(f'Расписание для класса {class_id} не найдено.'
-                               f'\nЧтобы его получить введите: '
-                               '`{PREFIX}расписание [класс]`')
+                await ctx.send(f'Расписание для класса {class_id} не найдено.\nЧтобы его получить введите: '
+                               f'`{PREFIX}расписание [класс]`')
         else:
-            await ctx.send(('**[E]** | Не удалось найти указанный класс',
-                           class_id))
+            await ctx.send(('**[E]** | Не удалось найти указанный класс', class_id))
 
     @command(name='tablenext',
              aliases=['рслед', 'Рслед', 'распслед', 'Распслед'],
@@ -82,20 +76,15 @@ class Timetable(Cog):
                 emb = await gen_timetable_embed(timetable)
                 emb.color = 0xFF8F00
                 emb.title = 'Расписание уроков __на следующую неделю__'
-                emb.description = ('Расписание дейстивтельно с '
-                                   f'{date_monday} по {date_sunday}')
-                emb.set_footer(text='Чтобы увидеть расписание на текущую '
-                               f'неделю введите: {PREFIX}расп{class_id}')
+                emb.description = f'Расписание дейстивтельно с {date_monday} по {date_sunday}'
+                emb.set_footer(text=f'Чтобы увидеть расписание на текущую неделю введите: {PREFIX}расп{class_id}')
 
                 await ctx.send(embed=emb)
             else:
-                await ctx.send(f'Расписание для класса {class_id} на следующую'
-                               ' неделю не найдено.'
-                               f'\nЧтобы его получить введите: '
-                               '`{PREFIX}расписание [класс]`')
+                await ctx.send(f'Расписание для класса {class_id} на следующую неделю не найдено.'
+                               f'\nЧтобы его получить введите: `{PREFIX}расписание [класс]`')
         else:
-            await ctx.send(('**[E]** | Не удалось найти указанный класс',
-                            class_id))
+            await ctx.send(('**[E]** | Не удалось найти указанный класс', class_id))
 
 
 def setup(bot):

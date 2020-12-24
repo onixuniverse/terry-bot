@@ -1,8 +1,8 @@
-from bin.utils.channels import get_channel
 from discord import Embed
 from discord.ext.commands import Cog
 
 from .. import db
+from ..utils import get_channel
 
 
 class MemberLogs(Cog):
@@ -12,8 +12,7 @@ class MemberLogs(Cog):
     @Cog.listener()
     async def on_member_join(self, member):
         """Logging system. Called when the user logs in to the guild."""
-        status = await db.record('SELECT logging FROM configs WHERE '
-                                 'guild_id = %s', member.guild.id)
+        status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', member.guild.id)
 
         if status == 'on':
             channel = await get_channel(member.guild.id)
@@ -33,8 +32,7 @@ class MemberLogs(Cog):
     @Cog.listener()
     async def on_member_remove(self, member):
         """Logging system. Called when the user leaves the guild."""
-        status = await db.record('SELECT logging FROM configs WHERE guild_id'
-                                 ' = %s', member.guild.id)
+        status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', member.guild.id)
 
         if status == 'on':
             channel = await get_channel(member.guild.id)
@@ -54,8 +52,7 @@ class MemberLogs(Cog):
     @Cog.listener()
     async def on_member_ban(self, guild, user):
         """Logging system. Called when the user is banned from the guild."""
-        status = await db.record('SELECT logging FROM configs WHERE guild_id'
-                                 ' = %s', guild.id)
+        status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', guild.id)
 
         if status == 'on':
             channel = await get_channel(guild.id)
@@ -75,8 +72,7 @@ class MemberLogs(Cog):
     @Cog.listener()
     async def on_member_unban(self, guild, user):
         """Logging system. Called when the user is being unban on the guild."""
-        status = await db.record('SELECT logging FROM configs WHERE guild_id'
-                                 ' = %s', guild.id)
+        status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', guild.id)
 
         if status == 'on':
             channel = await get_channel(guild.id)

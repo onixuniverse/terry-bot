@@ -2,10 +2,8 @@
 
 from bin.src import bot
 
-
 # Bot version
-__version__ = 'v0.1.18'
-
+__version__ = 'v0.1.20'
 
 # Run bot
 bot.run(__version__)

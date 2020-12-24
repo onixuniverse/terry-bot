@@ -3,11 +3,12 @@
 
 from glob import glob
 
-from resources.data.config import OWNER_IDS, PREFIX
 from discord.ext.commands import Bot
 from discord.ext.commands.errors import ExtensionNotLoaded
 from discord.flags import Intents
 from loguru import logger
+
+from resources.data.config import OWNER_IDS, PREFIX
 
 COGS = [path.split('\\')[-1][:-3] for path in glob('bin/cogs/*.py')]
 
@@ -31,7 +32,7 @@ class Bot(Bot):
     def run(self, version):
         self.VERSION = version
 
-        logger.info('Setuping cogs...')
+        logger.info('Setting cogs...')
         self.setup()
 
         with open('resources/data/tokens/token', 'r') as tf:

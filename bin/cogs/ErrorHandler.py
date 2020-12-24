@@ -8,8 +8,7 @@ from discord.ext.commands.errors import (BadArgument, BotMissingPermissions,
                                          NSFWChannelRequired, RoleNotFound)
 from loguru import logger
 
-
-IGNORE_EXCPTIONS = [BadArgument, CommandNotFound, DisabledCommand]
+IGNORE_EXCEPTIONS = [BadArgument, CommandNotFound, DisabledCommand]
 
 
 class ErrorHandler(Cog):
@@ -19,7 +18,7 @@ class ErrorHandler(Cog):
     @Cog.listener()
     async def on_command_error(self, ctx, exc):
         """Some errors exceptions."""
-        if any(isinstance(exc, err) for err in IGNORE_EXCPTIONS):
+        if any(isinstance(exc, err) for err in IGNORE_EXCEPTIONS):
             pass
         elif isinstance(exc, MissingPermissions):
             await ctx.send('У тебя нет прав!')
@@ -32,8 +31,7 @@ class ErrorHandler(Cog):
         elif isinstance(exc, RoleNotFound):
             await ctx.send(f'Роль не найдена. `{exc.argument}`')
         elif isinstance(exc, CommandOnCooldown):
-            await ctx.send('Команда на кулдауне. Попробуй через:' +
-                           f'{exc.retry_after:.2f}сек.')
+            await ctx.send('Команда на кулдауне. Попробуй через: {exc.retry_after:.2f}сек.')
         elif isinstance(exc, MissingRequiredArgument):
             await ctx.send(f'Пропущен требуемый аргумент: `{exc.param}`')
         elif isinstance(exc, DisabledCommand):
