@@ -11,7 +11,7 @@ class MemberLogs(Cog):
 
     @Cog.listener()
     async def on_member_join(self, member):
-        """Logging system. Called when the user logs in to the guild."""
+        """Логирование присоединения к серверу"""
         status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', member.guild.id)
 
         if status == 'on':
@@ -21,8 +21,7 @@ class MemberLogs(Cog):
             embed.set_thumbnail(url=member.avatar_url)
 
             fields = [('Пользователь', member.mention),
-                      ('Никнейм', member),
-                      ('ID', member.id)]
+                      ('Никнейм', member)]
 
             for name, value in fields:
                 embed.add_field(name=name, value=value, inline=False)
@@ -31,7 +30,7 @@ class MemberLogs(Cog):
 
     @Cog.listener()
     async def on_member_remove(self, member):
-        """Logging system. Called when the user leaves the guild."""
+        """Логирование выходов с сервера"""
         status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', member.guild.id)
 
         if status == 'on':
@@ -41,8 +40,7 @@ class MemberLogs(Cog):
             embed.set_thumbnail(url=member.avatar_url)
 
             fields = [('Пользователь', member.mention),
-                      ('Никнейм', member),
-                      ('ID', member.id)]
+                      ('Никнейм', member)]
 
             for name, value in fields:
                 embed.add_field(name=name, value=value, inline=False)
@@ -51,7 +49,7 @@ class MemberLogs(Cog):
 
     @Cog.listener()
     async def on_member_ban(self, guild, user):
-        """Logging system. Called when the user is banned from the guild."""
+        """Логирование банов на сервере"""
         status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', guild.id)
 
         if status == 'on':
@@ -61,8 +59,7 @@ class MemberLogs(Cog):
             embed.set_thumbnail(url=user.avatar_url)
 
             fields = [('Пользователь', user.mention),
-                      ('Никнейм', user),
-                      ('ID', user.id)]
+                      ('Никнейм', user)]
 
             for name, value in fields:
                 embed.add_field(name=name, value=value, inline=False)
@@ -71,7 +68,7 @@ class MemberLogs(Cog):
 
     @Cog.listener()
     async def on_member_unban(self, guild, user):
-        """Logging system. Called when the user is being unban on the guild."""
+        """Логирование разбанов на сервере"""
         status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', guild.id)
 
         if status == 'on':
@@ -79,8 +76,7 @@ class MemberLogs(Cog):
 
             embed = Embed(title='Пользователь разбанен', color=0x8e12cc)
             fields = [('Пользователь', user.mention),
-                      ('Никнейм', user),
-                      ('ID', user.id)]
+                      ('Никнейм', user)]
 
             for name, value in fields:
                 embed.add_field(name=name, value=value, inline=False)

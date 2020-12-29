@@ -23,8 +23,7 @@ class MessageLogs(Cog):
 
                 embed = Embed(title='Сообщение было удалено', color=0xFF5733)
 
-                fields = [('ID', payload.message_id, True),
-                          ('Автор', message.author.mention, True),
+                fields = [('Автор', message.author.mention, True),
                           ('Канал', msg_channel.mention, True)]
 
                 if message.embeds:
@@ -34,7 +33,7 @@ class MessageLogs(Cog):
                         if message.content:
                             fields.append(('Контент', message.content, False))
 
-                        image_url = message.attachments[0].proxy_url == ''
+                        image_url = message.attachments[0].proxy_url
                         try:
                             embed.set_image(url=image_url)
                         except HTTPException:

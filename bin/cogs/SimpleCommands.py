@@ -1,44 +1,50 @@
 from random import choice
 
-from discord import Member, Role
-from discord.ext.commands import BucketType, Cog, Greedy, command, cooldown
+from discord import Role
+from discord.ext.commands import Cog, Greedy, command
 
 
 class SimpleCommands(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command(name='hug', brief='Обнимашки')
-    @cooldown(1, 5, BucketType.user)
-    async def hugs(self, ctx, member: Member):
-        """Обнимает пользователя
-        `[member]`: пользователь"""
-
-        if ctx.message.author is not member:
-            await ctx.send(f'**:hugging: | {ctx.message.author.mention} '
-                           'обнял(а) {member.mention}**')
-
-    @command(name='rand', aliases=['random', 'choice', 'выбрать', 'выбери'],
+    @command(name='rand', aliases=['random', 'choice', 'выбрать'],
              brief='Выбирает одного пользователя из всех.')
-    async def random_member(self, ctx, role: Greedy[Role]):
+    async def random_member(self, ctx, roles: Greedy[Role], quantity: int = 1):
         """Выбирает одного пользователя из всех. Если не указана роль, то
         выберет из всех пользователей
-        `[role]`: роль"""
+        `[roles]`: роли
+        `<quantity>: количество пользователей, по умолчанию - 1`"""
 
-        async def get_random_members(role):
-            try:
-                result = choice(role.members)
-            except IndexError:
-                result = None
+        async def get_random_members(roles):
+            result = []
+            for role in roles:
+                try:
+                    for member in role.members:
+                        result.append(member.mention)
+                except IndexError:
+                    pass
 
             return result
 
-        if role:
-            member = await get_random_members(role)
+        if roles:
+            members_raw = await get_random_members(roles)
         else:
-            member = await get_random_members(role=ctx.guild.default_role)
+            members_raw = await get_random_members([ctx.guild.default_role])
 
-        await ctx.send(f'Это лучший вариант: {member}')
+        if members_raw:
+            members = []
+            for _ in range(quantity):
+                random_member = choice(members_raw)
+                members_raw.remove(random_member)
+                members.append(random_member)
+
+            if quantity == 1:
+                await ctx.send(f'{members[0]} - отличный вариант.')
+            else:
+                await ctx.send('Я выбираю их: ' + ', '.join(members))
+        else:
+            await ctx.send(ctx.author.mention, 'в данных ролях пользователей не найдено.')
 
 
 def setup(bot):

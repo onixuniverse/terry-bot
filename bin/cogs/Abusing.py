@@ -14,7 +14,7 @@ class Abusing(Cog):
 
     @Cog.listener()
     async def on_message(self, message):
-        """Antimat system."""
+        """Система антимата"""
         if not message.author.bot:
             status = await db.record('SELECT abuse FROM configs WHERE guild_id = %s', message.guild.id)
 
@@ -37,8 +37,7 @@ class Abusing(Cog):
                               ('Никнейм', message.author, True),
                               ('ID', message.author.id, True),
                               ('Контент сообщения', message.content, False),
-                              ('Слова нецензурной лексики',
-                               ', '.join(bad_words), False)]
+                              ('Слова нецензурной лексики', ', '.join(bad_words), False)]
 
                     for name, value, inline in fields:
                         embed.add_field(name=name, value=value, inline=inline)
