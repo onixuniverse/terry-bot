@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.22
+**Updates**
+- Fix 'addrole' command
+- Set discord.py version 1.6.0
+
 ## v0.1.21
 **Updates**
 - Remove hugs command

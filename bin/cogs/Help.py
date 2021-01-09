@@ -23,7 +23,7 @@ def syntax(cmd):
 
 async def cmd_help(ctx, cmd):
     embed = Embed(title=f'Помощь по команде `{cmd}`', description=syntax(cmd), color=ctx.author.color)
-    embed.add_field(name='Опиание команды', value=cmd.help)
+    embed.add_field(name='Описание команды', value=cmd.help)
     await ctx.send(embed=embed)
 
 

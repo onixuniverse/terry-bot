@@ -20,7 +20,7 @@ class GuildAdding(Cog):
             await db.execute('INSERT INTO roles (guild_id) VALUES(%s)', ctx.guild.id)
             await db.commit()
         elif results:
-            await ctx.send(f'{ctx.message.author.mention}, данный сервер уже зарегестрирован в базе данных бота.')
+            await ctx.send(f'{ctx.message.author.mention}, данный сервер уже зарегистрирован в базе данных бота.')
 
     @Cog.listener()
     async def on_guild_join(self, guild):

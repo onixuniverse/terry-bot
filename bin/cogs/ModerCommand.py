@@ -1,9 +1,7 @@
 from typing import Optional
 
-from discord import Embed, Member, Role
-from discord.ext.commands import (Cog, Greedy, bot_has_permissions, command,
-                                  has_permissions)
-from loguru import logger
+from discord import Embed, Member, Role, Forbidden, HTTPException
+from discord.ext.commands import Cog, Greedy, bot_has_permissions, command, has_permissions
 
 from ..utils import get_channel
 
@@ -30,7 +28,7 @@ class ModerCommand(Cog):
     @bot_has_permissions(send_messages=True, manage_messages=True)
     async def say_given_text_as_embed(self, ctx, *, text: str):
         """Отправляет данный текст в виде врезки
-        `[text]`: отправяемый текст"""
+        `[text]`: отправляемый текст"""
 
         if text:
             emb = Embed(color=ctx.author.color)
@@ -80,37 +78,36 @@ class ModerCommand(Cog):
     @has_permissions(manage_messages=True)
     @bot_has_permissions(manage_messages=True)
     async def clear_messages(self, ctx, targets: Greedy[Member], count: Optional[int] = 1):
-        """Удалет указаное число сообщений(count)
+        """Удаляет указанное число сообщений(count)
 
-        `<targets>`: пользоватли от которых нужно удалить сообщения
+        `<targets>`: пользователи от которых нужно удалить сообщения
         `<count>`: количество удаляемых сообщений. По умолчанию: 1"""
 
         def _check(message):
             return not len(targets) or message.author in targets
 
-        with ctx.channel.typing():
-            await ctx.message.delete()
-            deleted = await ctx.channel.purge(limit=count, check=_check)
-            await ctx.send(f'{len(deleted):,} сообщений было удалено.', delete_after=5)
+        await ctx.message.delete()
+        deleted = await ctx.channel.purge(limit=count, check=_check)
+        await ctx.send(f'{len(deleted):,} сообщений было удалено.', delete_after=5)
 
-    @command(name='addrole', brief='Выдача ролей')
+    @command(name='addrole', aliases=['giverole'], brief='Выдача ролей')
     @has_permissions(manage_roles=True)
-    @bot_has_permissions(manage_roles=True)
-    async def give_role(self, ctx, roles: Greedy[Role],
-                        members: Greedy[Member]):
-        """Выдаёт роли указанным ползователям
+    async def give_role(self, ctx, members: Greedy[Member], roles: Greedy[Role]):
+        """Выдаёт роли указанным пользователям
 
-        `[member]`: пользователи
+        `[members]`: пользователи
         `[roles]`: роли"""
 
-        with ctx.channel.typing():
+        if members:
             try:
-                for member in members:
-                    await member.add_roles(*roles, reason=('Выдана:', ctx.message.author))
+                for elem in members:
+                    await elem.add_roles(*roles)
 
                 await ctx.send(f'Роли выданы {len(members)} участникам.')
-            except Exception as exc:
-                logger.error(exc)
+            except Forbidden:
+                await ctx.send(':x: | Нет прав на выдачу этих ролей.')
+            except HTTPException:
+                await ctx.send(':x: | Не удалось добавить роли.')
 
 
 def setup(bot):
