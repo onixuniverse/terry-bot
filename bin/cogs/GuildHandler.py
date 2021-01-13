@@ -3,7 +3,7 @@ from discord.ext.commands import Cog, command, is_owner
 from .. import db
 
 
-class GuildAdding(Cog):
+class GuildHandler(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -36,4 +36,4 @@ class GuildAdding(Cog):
 
 
 def setup(bot):
-    bot.add_cog(GuildAdding(bot))
+    bot.add_cog(GuildHandler(bot))

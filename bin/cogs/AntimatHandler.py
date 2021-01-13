@@ -8,7 +8,7 @@ from .. import db
 from ..utils import get_channel
 
 
-class Abusing(Cog):
+class AntimatHandler(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -46,4 +46,4 @@ class Abusing(Cog):
 
 
 def setup(bot):
-    bot.add_cog(Abusing(bot))
+    bot.add_cog(AntimatHandler(bot))

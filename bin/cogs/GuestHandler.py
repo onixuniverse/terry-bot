@@ -4,7 +4,7 @@ from .. import db
 from ..utils import get_role
 
 
-class Guesting(Cog):
+class GuestHandler(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -21,4 +21,4 @@ class Guesting(Cog):
 
 
 def setup(bot):
-    bot.add_cog(Guesting(bot))
+    bot.add_cog(GuestHandler(bot))

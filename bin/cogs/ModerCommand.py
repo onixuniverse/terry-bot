@@ -1,7 +1,7 @@
 from typing import Optional
 
 from discord import Embed, Member, Role, Forbidden, HTTPException
-from discord.ext.commands import Cog, Greedy, bot_has_permissions, command, has_permissions
+from discord.ext.commands import Cog, Greedy, bot_has_permissions, command, has_permissions, group
 
 from ..utils import get_channel
 
@@ -12,7 +12,6 @@ class ModerCommand(Cog):
 
     @command(name='say', brief='Повторяет текст')
     @has_permissions(send_messages=True, manage_messages=True)
-    @bot_has_permissions(send_messages=True, manage_messages=True)
     async def say_given_text(self, ctx, *, text: str):
         """Отправляет данный текст
         `[text]`: отправляемый текст"""
@@ -22,10 +21,8 @@ class ModerCommand(Cog):
         else:
             await ctx.send('**[E]** | Нет подходящего текста для отправки.')
 
-    @command(name='sayembed', aliases=['sayemb'],
-             brief='Текст в виде врезки')
+    @command(name='sayemb', brief='Текст в виде врезки')
     @has_permissions(send_messages=True, manage_messages=True)
-    @bot_has_permissions(send_messages=True, manage_messages=True)
     async def say_given_text_as_embed(self, ctx, *, text: str):
         """Отправляет данный текст в виде врезки
         `[text]`: отправляемый текст"""
@@ -39,7 +36,6 @@ class ModerCommand(Cog):
 
     @command(name='kick', brief='Кик учистника')
     @has_permissions(kick_members=True)
-    @bot_has_permissions(kick_members=True)
     async def kick_member(self, ctx, members: Greedy[Member], *, reason: Optional[str]):
         """Кикает пользователя
 
@@ -64,19 +60,17 @@ class ModerCommand(Cog):
 
     @command(name='ban', brief='Бан пользователя')
     @has_permissions(ban_members=True)
-    @bot_has_permissions(ban_members=True)
     async def ban_member(self, ctx, users: Greedy[Member], *, reason: Optional[str]):
         """Банит пользователя
 
         `[users]`: пользователи
         `<reason>`: причина бана`"""
 
-        for user in users:
-            await user.ban(reason=reason)
+        for elem in users:
+            await elem.ban(reason=reason)
 
     @command(name='clear', aliases=['purge'], brief='Удаление сообщений')
     @has_permissions(manage_messages=True)
-    @bot_has_permissions(manage_messages=True)
     async def clear_messages(self, ctx, targets: Greedy[Member], count: Optional[int] = 1):
         """Удаляет указанное число сообщений(count)
 

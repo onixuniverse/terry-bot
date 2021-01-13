@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.23
+**Updates**
+- Some updates
+- commands.md update
+- Rename files
+
 ## v0.1.22
 **Updates**
 - Fix 'addrole' command

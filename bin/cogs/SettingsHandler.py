@@ -10,7 +10,7 @@ from .. import db
 from ..utils import get_channel, get_role
 
 
-class Settings(Cog):
+class SettingsHandler(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -254,4 +254,4 @@ class Settings(Cog):
 
 
 def setup(bot):
-    bot.add_cog(Settings(bot))
+    bot.add_cog(SettingsHandler(bot))

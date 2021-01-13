@@ -13,7 +13,6 @@ from resources.data.config import OWNER_IDS, PREFIX
 COGS = [path.split('\\')[-1][:-3] for path in glob('bin/cogs/*.py')]
 
 
-@logger.catch
 class Bot(Bot):
     def __init__(self):
         self.PREFIX = PREFIX
@@ -21,27 +20,26 @@ class Bot(Bot):
         super().__init__(command_prefix=PREFIX, OWNER_IDS=OWNER_IDS, intents=Intents.all(), help_command=None)
 
     def setup(self):
+        logger.info('Setting cogs...')
+
         for cog in COGS:
             try:
                 self.load_extension(f'bin.cogs.{cog}')
-                logger.info(f'{cog} loaded')
-            except ExtensionNotLoaded as exc:
-                logger.error(exc)
+                logger.info(f'{cog} setup!')
+            except ExtensionNotLoaded:
+                logger.error(ExtensionNotLoaded)
 
     def run(self, version):
         self.VERSION = version
 
-        logger.info('Setting cogs...')
-        self.setup()
-
         with open('resources/data/tokens/token', 'r') as tf:
             self.TOKEN = tf.read()
 
-        logger.info('Starting bot...')
+        self.setup()
         super().run(self.TOKEN, reconnect=True)
 
     async def on_ready(self):
-        logger.info('Bot ready!')
+        logger.info('Bot started!')
 
 
 bot = Bot()

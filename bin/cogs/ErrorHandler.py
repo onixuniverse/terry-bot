@@ -39,7 +39,6 @@ class ErrorHandler(Cog):
             logger.error(Forbidden)
         else:
             logger.error(exc)
-            raise exc
 
 
 def setup(bot):

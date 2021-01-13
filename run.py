@@ -3,7 +3,7 @@
 from bin.src import bot
 
 # Bot version
-__version__ = 'v0.1.22'
+__version__ = 'v0.1.23'
 
 # Run bot
 bot.run(__version__)

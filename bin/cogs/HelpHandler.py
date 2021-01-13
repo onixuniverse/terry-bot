@@ -27,7 +27,7 @@ async def cmd_help(ctx, cmd):
     await ctx.send(embed=embed)
 
 
-class Help(Cog):
+class HelpHandler(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -47,7 +47,7 @@ class Help(Cog):
                 if cmd.hidden is False:
                     fields.append((cmd.brief or 'Нет краткого описания', syntax(cmd)))
 
-            embed = Embed(title='Помощь по командам {self.bot.user.name}', color=ctx.author.color)
+            embed = Embed(title=f'Помощь по командам {self.bot.user.name}', color=ctx.author.color)
             embed.set_thumbnail(url=ctx.guild.me.avatar_url)
             embed.set_footer(text='[] - обязательный аргумент команды, <> - необязательный аргумент команды')
 
@@ -58,4 +58,4 @@ class Help(Cog):
 
 
 def setup(bot):
-    bot.add_cog(Help(bot))
+    bot.add_cog(HelpHandler(bot))

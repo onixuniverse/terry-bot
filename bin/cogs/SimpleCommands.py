@@ -8,7 +8,7 @@ class SimpleCommands(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command(name='rand', aliases=['random', 'choice', 'выбрать'],
+    @command(name='random', aliases=['choice'],
              brief='Выбирает одного пользователя из всех.')
     async def random_member(self, ctx, roles: Greedy[Role], quantity: int = 1):
         """Выбирает одного пользователя из всех. Если не указана роль, то

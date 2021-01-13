@@ -25,7 +25,7 @@ async def gen_timetable_embed(timetable):
     return emb
 
 
-class Timetable(Cog):
+class TimetableHandler(Cog):
     """Timetable cog"""
 
     def __init__(self, bot):
@@ -88,4 +88,4 @@ class Timetable(Cog):
 
 
 def setup(bot):
-    bot.add_cog(Timetable(bot))
+    bot.add_cog(TimetableHandler(bot))
