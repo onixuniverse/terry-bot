@@ -1,6 +1,8 @@
 [![License](https://img.shields.io/github/license/onixuniverse/terry-bot)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Python](https://img.shields.io/badge/python-3.9-blue.svg)](https://python.org)
 
+Sorry, there will be no English.
+
 # 🤖 Terry
 
 **Версия [v0.1.22](CHANGELOG.md)**
