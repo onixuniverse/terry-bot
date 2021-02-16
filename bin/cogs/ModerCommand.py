@@ -1,7 +1,8 @@
+from random import choice
 from typing import Optional
 
 from discord import Embed, Member, Role, Forbidden, HTTPException
-from discord.ext.commands import Cog, Greedy, bot_has_permissions, command, has_permissions, group
+from discord.ext.commands import Cog, Greedy, command, has_permissions
 
 from ..utils import get_channel
 
@@ -34,7 +35,7 @@ class ModerCommand(Cog):
         else:
             await ctx.send('**[E]** | Нет подходящего текста для отправки.')
 
-    @command(name='kick', brief='Кик учистника')
+    @command(name='kick', brief='Кик участника')
     @has_permissions(kick_members=True)
     async def kick_member(self, ctx, members: Greedy[Member], *, reason: Optional[str]):
         """Кикает пользователя
@@ -102,6 +103,44 @@ class ModerCommand(Cog):
                 await ctx.send(':x: | Нет прав на выдачу этих ролей.')
             except HTTPException:
                 await ctx.send(':x: | Не удалось добавить роли.')
+
+    @command(name='random', aliases=['choice'], brief='Выбирает одного пользователя из всех.')
+    @has_permissions(manage_roles=True)
+    async def random_member(self, ctx, roles: Greedy[Role], quantity: int = 1):
+        """Выбирает одного пользователя из всех. Если не указана роль, то
+        выберет из всех пользователей
+        `[roles]`: роли
+        `<quantity>: количество пользователей, по умолчанию - 1`"""
+
+        async def get_random_members(roles):
+            result = []
+            for role in roles:
+                try:
+                    for member in role.members:
+                        result.append(member.mention)
+                except IndexError:
+                    pass
+
+            return result
+
+        if roles:
+            members_raw = await get_random_members(roles)
+        else:
+            members_raw = await get_random_members([ctx.guild.default_role])
+
+        if members_raw:
+            members = []
+            for _ in range(quantity):
+                random_member = choice(members_raw)
+                members_raw.remove(random_member)
+                members.append(random_member)
+
+            if quantity == 1:
+                await ctx.send(f'{members[0]} - отличный вариант.')
+            else:
+                await ctx.send('Я выбираю их: ' + ', '.join(members))
+        else:
+            await ctx.send(ctx.author.mention, 'в данных ролях пользователей не найдено.')
 
 
 def setup(bot):

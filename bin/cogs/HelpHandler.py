@@ -13,8 +13,7 @@ def syntax(cmd):
 
     for key, value in cmd.params.items():
         if key not in ('self', 'ctx'):
-            params.append(f'<{key}>' if 'NoneType' in str(value)
-                          else f'[{key}]')
+            params.append(f'<{key}>' if 'NoneType' in str(value) else f'[{key}]')
 
     params = ' '.join(params)
 
