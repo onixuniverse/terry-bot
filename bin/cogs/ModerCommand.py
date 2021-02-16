@@ -107,10 +107,10 @@ class ModerCommand(Cog):
     @command(name='random', aliases=['choice'], brief='Выбирает одного пользователя из всех.')
     @has_permissions(manage_roles=True)
     async def random_member(self, ctx, roles: Greedy[Role], quantity: int = 1):
-        """Выбирает одного пользователя из всех. Если не указана роль, то
+        """Выбирает одного или нескольких пользователей из всех. Если не указана роль, то
         выберет из всех пользователей
         `[roles]`: роли
-        `<quantity>: количество пользователей, по умолчанию - 1`"""
+        `<quantity>`: количество пользователей, по умолчанию - 1"""
 
         async def get_random_members(roles):
             result = []
@@ -130,10 +130,13 @@ class ModerCommand(Cog):
 
         if members_raw:
             members = []
-            for _ in range(quantity):
-                random_member = choice(members_raw)
-                members_raw.remove(random_member)
-                members.append(random_member)
+            try:
+                for _ in range(quantity):
+                    random_member = choice(members_raw)
+                    members_raw.remove(random_member)
+                    members.append(random_member)
+            except IndexError:
+                pass
 
             if quantity == 1:
                 await ctx.send(f'{members[0]} - отличный вариант.')
