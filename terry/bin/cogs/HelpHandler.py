@@ -1,10 +1,10 @@
 from typing import Optional
 
 from discord import Embed
-from discord.ext.commands import Cog, command
+from discord.ext.commands import command, Bot, Cog
 from discord.utils import get
 
-from resources.data.config import PREFIX
+from terry.resources.data.config import PREFIX
 
 
 def syntax(cmd):
@@ -54,6 +54,17 @@ class HelpHandler(Cog):
                 embed.add_field(name=name, value=value, inline=False)
 
             await ctx.send(embed=embed)
+
+    @Cog.listener()
+    async def on_message(self, msg):
+        if msg.author is Bot:
+            return
+
+        if self.bot in msg.mentions:
+            content = 'Привет, меня зовут Терри, я помогаю на серверах для дистанционного обучения.\nЧтобы узнать мои ' \
+                      f'команды введи {PREFIX}help.\nК сожалению, я нахожусь ещё в стадии разработки. '
+
+            await msg.channel.send(content, mention_author=True)
 
 
 def setup(bot):

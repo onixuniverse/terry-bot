@@ -7,7 +7,7 @@ from .dates import week_number
 
 
 async def get_timetable(class_id, next_week):
-    CREDENTIALS_FILE = 'resources/data/tokens/googleapi_token.json'
+    CREDENTIALS_FILE = 'terry/resources/data/tokens/googleapi_token.json'
 
     with open('resources/data/sheet_id') as file:
         spreadsheet_id = file.read()
@@ -50,7 +50,7 @@ async def generate_timetable(class_id, next_week):
             timetable = {
                 'time': values[0],
                 'monday': values[1],
-                'thuesday': values[2],
+                'tuesday': values[2],
                 'wednesday': values[3],
                 'thursday': values[4],
                 'friday': values[5],

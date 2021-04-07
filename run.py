@@ -1,9 +1,7 @@
-# Copyright (c) 2021 Maksim Alekseev
-
-from bin.src import bot
+from terry.bin.src import _bot
 
 # Bot version
-__version__ = 'v0.1.23'
+__version__ = '0.2b1'
 
 # Run bot
-bot.run(__version__)
+_bot.run(__version__)

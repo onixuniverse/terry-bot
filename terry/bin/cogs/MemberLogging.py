@@ -49,7 +49,7 @@ class MemberLogging(Cog):
 
     @Cog.listener()
     async def on_member_ban(self, guild, user):
-        """Логирование банов на сервере"""
+        """Логирование блокировок на сервере"""
         status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', guild.id)
 
         if status == 'on':
@@ -68,13 +68,13 @@ class MemberLogging(Cog):
 
     @Cog.listener()
     async def on_member_unban(self, guild, user):
-        """Логирование разбанов на сервере"""
+        """Логирование разблокировок на сервере"""
         status = await db.record('SELECT logging FROM configs WHERE guild_id = %s', guild.id)
 
         if status == 'on':
             channel = await get_channel(guild.id)
 
-            embed = Embed(title='Пользователь разбанен', color=0x8e12cc)
+            embed = Embed(title='Пользователь разблокирован', color=0x8e12cc)
             fields = [('Пользователь', user.mention),
                       ('Никнейм', user)]
 

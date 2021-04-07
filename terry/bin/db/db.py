@@ -1,6 +1,6 @@
 import psycopg2
 
-from resources.data.tokens.db_keys import dbHost, dbName, dbPass, dbUser
+from terry.resources.data.tokens.db_keys import dbHost, dbName, dbPass, dbUser
 
 conn = psycopg2.connect(
     database=dbName,

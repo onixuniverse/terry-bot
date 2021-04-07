@@ -3,7 +3,7 @@ import re
 from discord import Embed
 from discord.ext.commands import Cog
 
-from resources.data.regex import REGEX
+from terry.resources.data.regex import REGEX
 from .. import db
 from ..utils import get_channel
 

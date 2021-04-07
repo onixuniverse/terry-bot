@@ -1,11 +1,10 @@
 from typing import Optional
 
 from discord import Embed, Role, TextChannel
-from discord.ext.commands import (Cog, bot_has_permissions, group,
-                                  has_permissions)
+from discord.ext.commands import (Cog, bot_has_permissions, group, has_permissions)
 from loguru import logger
 
-from resources.data.config import PREFIX
+from terry.resources.data.config import PREFIX
 from .. import db
 from ..utils import get_channel, get_role
 
@@ -30,8 +29,7 @@ class SettingsHandler(Cog):
                       (':detective: __Система "Гость"__', f'```{PREFIX}settings guest```'),
                       (':a: __Система "Антимат"__', f'```{PREFIX}settings abuse```'),
                       (':loudspeaker: __Каналы__', f'```{PREFIX}settings channel```'),
-                      (':scroll: __Роли__', f'```{PREFIX}settings role```'),
-                      (':dvd: __Электронная таблица__', f'```{PREFIX}spreadsheet```')]
+                      (':scroll: __Роли__', f'```{PREFIX}settings role```')]
 
             for name, value in fields:
                 emb.add_field(name=name, value=value, inline=False)
@@ -87,7 +85,6 @@ class SettingsHandler(Cog):
                     await db.commit()
 
                     await ctx.send(f':white_check_mark: | Режим для {title} изменён на `{mode}`.')
-
                 else:
                     await ctx.send(f':x: | Режим `{mode}` для {title} уже установлен.')
             except Exception as err:
@@ -95,8 +92,7 @@ class SettingsHandler(Cog):
                 await ctx.send('[E] | Что-то пошло не так!')
 
         else:
-            emb = Embed(color=0x6b32a8,
-                        title=f'**Настройки** – {title}',
+            emb = Embed(color=0x6b32a8, title=f'**Настройки** – {title}',
                         description='Выдаёт заданную роль для новых пользователей.')
             emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
 
@@ -131,8 +127,7 @@ class SettingsHandler(Cog):
                 await ctx.send('**[E]** | Что-то пошло не так!')
 
         else:
-            emb = Embed(color=0x6b32a8,
-                        title=f'**Настройки** – {title}',
+            emb = Embed(color=0x6b32a8, title=f'**Настройки** – {title}',
                         description='Система оповещает, если находит маты в сообщениях пользователей.')
             emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
             fields = [('Текущий режим', f'`{status}`', False),
@@ -152,8 +147,7 @@ class SettingsHandler(Cog):
             emb = Embed(color=0x6b32a8, title='**Настройки** – :loudspeaker: __Каналы__',
                         description='Настройка каналов для данного сервера.')
             emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
-            emb.add_field(name='Для изменения канала логирования',
-                          value=f'```{PREFIX}settings channel log```',
+            emb.add_field(name='Для изменения канала логирования', value=f'```{PREFIX}settings channel log```',
                           inline=False)
 
             await ctx.send(embed=emb)
@@ -163,7 +157,6 @@ class SettingsHandler(Cog):
     @bot_has_permissions(manage_channels=True, manage_messages=True)
     async def log_channel(self, ctx, channel: Optional[TextChannel]):
         channel_db = await get_channel(ctx.guild.id)
-
         channel_db_id = channel_db.id or None
 
         title = ':newspaper: __Логирование__'
@@ -192,8 +185,7 @@ class SettingsHandler(Cog):
             emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
 
             fields = [('Текущий канал логирования', channel_db_mention, False),
-                      ('Для изменения канала логирования', f'```{PREFIX}settings channel log <#канал/ID>```',
-                       False)]
+                      ('Для изменения канала логирования', f'```{PREFIX}settings channel log <#канал/ID>```', False)]
 
             for name, value, inline in fields:
                 emb.add_field(name=name, value=value, inline=inline)
@@ -226,10 +218,8 @@ class SettingsHandler(Cog):
                     await db.execute('UPDATE roles SET guest_role = %s WHERE guild_id = %s', role.id, ctx.guild.id)
                     await db.commit()
 
-                    emb = Embed(color=0x6b32a8,
-                                title=':scroll: __Роли__ – :detective: __Система "Гость"__')
-                    emb.add_field(name='Установлена новая роль',
-                                  value=role.mention)
+                    emb = Embed(color=0x6b32a8, title=':scroll: __Роли__ – :detective: __Система "Гость"__')
+                    emb.add_field(name='Установлена новая роль', value=role.mention)
                     emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
 
                     await ctx.send(embed=emb)
@@ -240,8 +230,7 @@ class SettingsHandler(Cog):
         else:
             role_db_mention = role_db.mention or None
 
-            emb = Embed(color=0x6b32a8,
-                        title='**Настройки** – :scroll: __Роли__ - :detective: __Система "Гость"__',
+            emb = Embed(color=0x6b32a8, title='**Настройки** – :scroll: __Роли__ - :detective: __Система "Гость"__',
                         description='Настройка роли гостя для данного сервера.')
             emb.set_thumbnail(url='https://img.icons8.com/dusk/64/000000/settings.png')
 

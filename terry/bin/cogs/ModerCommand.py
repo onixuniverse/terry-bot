@@ -38,7 +38,7 @@ class ModerCommand(Cog):
     @command(name='kick', brief='Кик участника')
     @has_permissions(kick_members=True)
     async def kick_member(self, ctx, members: Greedy[Member], *, reason: Optional[str]):
-        """Кикает пользователя
+        """Исключает пользователя сервера
 
         `[members]`: пользователи
         `<reason>`: причина кика`"""
@@ -62,13 +62,13 @@ class ModerCommand(Cog):
     @command(name='ban', brief='Бан пользователя')
     @has_permissions(ban_members=True)
     async def ban_member(self, ctx, users: Greedy[Member], *, reason: Optional[str]):
-        """Банит пользователя
+        """Исключает пользователя сервера на всегда
 
         `[users]`: пользователи
-        `<reason>`: причина бана`"""
+        `<reason>`: причина блокировки`"""
 
-        for elem in users:
-            await elem.ban(reason=reason)
+        for user in users:
+            await user.ban(reason=reason)
 
     @command(name='clear', aliases=['purge'], brief='Удаление сообщений')
     @has_permissions(manage_messages=True)

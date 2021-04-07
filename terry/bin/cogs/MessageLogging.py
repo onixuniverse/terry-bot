@@ -24,7 +24,9 @@ class MessageLogging(Cog):
                 embed = Embed(title=':wastebasket: Сообщение было удалено', color=0xFF5733)
                 embed.add_field(name='Автор', value=message.author.mention, inline=True)
                 embed.add_field(name='Канал', value=msg_channel.mention, inline=True)
-                embed.add_field(name='Контент', value=message.content, inline=True)
+
+                if message.content:
+                    embed.add_field(name='Контент', value=message.content, inline=True)
 
                 if message.attachments:
                     image_url = message.attachments[0].proxy_url

@@ -4,7 +4,7 @@ from discord import Embed
 from discord.ext.commands import Cog
 from discord.ext.commands.core import command
 
-from resources.data.config import PREFIX
+from terry.resources.data.config import PREFIX
 from ..utils import generate_timetable, start_end_week
 
 
@@ -27,13 +27,10 @@ async def gen_timetable_embed(timetable):
 
 class TimetableHandler(Cog):
     """Timetable cog"""
-
     def __init__(self, bot):
         self.bot = bot
 
-    @command(name='table',
-             aliases=['расписание', 'расп', 'Расписание', 'Расп'],
-             brief='Расписание уроков')
+    @command(name='table', aliases=['расписание', 'расп', 'Расписание', 'Расп'], brief='Расписание уроков')
     async def send_timetable(self, ctx, class_id: Optional[str]):
         """Отправляет расписание уроков на текущую неделю
         `[class_id]`: класс"""
@@ -47,7 +44,7 @@ class TimetableHandler(Cog):
                     emb = await gen_timetable_embed(timetable)
                     emb.color = 0x1BFF00
                     emb.title = 'Расписание уроков'
-                    emb.description = f'Расписание дейстивтельно с {date_monday} по {date_sunday}'
+                    emb.description = f'Расписание действительно с {date_monday} по {date_sunday}'
                     emb.set_footer(text=f'Чтобы увидеть расписание на следующую неделю введите: '
                                         f'{PREFIX}распслед {class_id}')
 
@@ -61,12 +58,9 @@ class TimetableHandler(Cog):
             await ctx.send('К сожалению, функция расписания временно не доступна на сторонних северах.\nМы оповестим '
                            'вас, когда она станет вновь доступна.')
 
-    @command(name='tablenext',
-             aliases=['распслед'],
-             brief='Расписание уроков на следующую неделю')
+    @command(name='tablenext', aliases=['распслед'], brief='Расписание уроков на следующую неделю')
     async def send_timetable_next(self, ctx, class_id: Optional[str]):
         """Отправляет расписание уроков на следующую неделю
-
         `[class_id]`: класс"""
         if ctx.guild.id == 693730890261463050 or ctx.guild.id == 696734117873713172:
             if class_id:
