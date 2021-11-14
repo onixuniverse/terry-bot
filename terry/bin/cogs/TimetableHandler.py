@@ -30,7 +30,7 @@ class TimetableHandler(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command(name='table', aliases=['расписание', 'расп', 'Расписание', 'Расп'], brief='Расписание уроков')
+    @command(name='table', aliases=['расписание', 'расп', 'Расписание', 'Расп', 'р', 'Р'], brief='Расписание уроков')
     async def send_timetable(self, ctx, class_id: Optional[str]):
         """Отправляет расписание уроков на текущую неделю
         `[class_id]`: класс"""
@@ -58,7 +58,7 @@ class TimetableHandler(Cog):
             await ctx.send('К сожалению, функция расписания временно не доступна на сторонних северах.\nМы оповестим '
                            'вас, когда она станет вновь доступна.')
 
-    @command(name='tablenext', aliases=['распслед'], brief='Расписание уроков на следующую неделю')
+    @command(name='tablenext', aliases=['распслед', 'рс', 'Рс'], brief='Расписание уроков на следующую неделю')
     async def send_timetable_next(self, ctx, class_id: Optional[str]):
         """Отправляет расписание уроков на следующую неделю
         `[class_id]`: класс"""
