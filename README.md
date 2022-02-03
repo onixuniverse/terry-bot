@@ -16,4 +16,4 @@ Sorry, there will be no English.
 **Но! Бот ещё в стадии тестирования, возможны непредвиденные ошибки и баги. Прошу обо всех ошибках сообщать в репозитории.**
 
 
-[Copyright (c) 2021 Maksim Alekseev](LICENSE)
+[Copyright (c) 2021-2022 Maksim Alekseev](LICENSE)
