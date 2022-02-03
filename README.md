@@ -13,7 +13,5 @@ Sorry, there will be no English.
 
 Этот проект бесплатен, можно добавить бота себе на сервер по этой [ссылке](https://discord.com/api/oauth2/authorize?client_id=663412377693454336&permissions=8&scope=bot).
 
-**Но! Бот ещё в стадии тестирования, возможны непредвиденные ошибки и баги. Прошу обо всех ошибках сообщать в репозитории.**
-
 
 [Copyright (c) 2021-2022 Maksim Alekseev](LICENSE)
