@@ -48,7 +48,7 @@ class HelpHandler(Cog):
 
             embed = Embed(title=f'Помощь по командам {self.bot.user.name}', color=ctx.author.color)
             embed.set_thumbnail(url=ctx.guild.me.avatar_url)
-            embed.set_footer(text='[] - обязательный аргумент команды, <> - необязательный аргумент команды')
+            embed.set_footer(text='[] - обязательный аргумент команды, <> - необязательный аргумент команды, | - или')
 
             for name, value in fields:
                 embed.add_field(name=name, value=value, inline=False)
