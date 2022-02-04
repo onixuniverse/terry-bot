@@ -1,3 +1,5 @@
+import os
+
 import googleapiclient.discovery
 import httplib2
 from loguru import logger
@@ -7,26 +9,22 @@ from .dates import week_number
 
 
 async def get_timetable(class_id, next_week):
-    CREDENTIALS_FILE = 'terry/resources/data/tokens/googleapi_token.json'
-
-    with open('resources/data/sheet_id') as file:
-        spreadsheet_id = file.read()
+    credentials_file = 'terry/resources/data/tokens/googleapi_token.json'
+    spreadsheet_id = os.getenv("SHEET_ID")
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
-        CREDENTIALS_FILE,
+        credentials_file,
         ['https://www.googleapis.com/auth/spreadsheets',
          'https://www.googleapis.com/auth/drive'])
-    httpAuth = credentials.authorize(httplib2.Http())
-    service = googleapiclient.discovery.build('sheets', 'v4', http=httpAuth)
+    http_auth = credentials.authorize(httplib2.Http())
+    service = googleapiclient.discovery.build('sheets', 'v4', http=http_auth)
 
     week = await week_number(next_week)
 
     if week % 2 == 1:
-        # если неделя нечетная
-        class_id = class_id + '_1'
+        class_id = class_id + '_1'  # если неделя нечетная
     elif week % 2 == 0:
-        # если неделя четная
-        class_id = class_id + '_2'
+        class_id = class_id + '_2'  # если неделя четная
 
     try:
         values = service.spreadsheets().values().get(

@@ -157,7 +157,7 @@ class SettingsHandler(Cog):
     @bot_has_permissions(manage_channels=True, manage_messages=True)
     async def log_channel(self, ctx, channel: Optional[TextChannel]):
         channel_db = await get_channel(ctx.guild.id)
-        channel_db_id = channel_db.id or None
+        channel_db_id = channel_db.id if channel_db else None
 
         title = ':newspaper: __Логирование__'
 
@@ -178,7 +178,7 @@ class SettingsHandler(Cog):
                 await ctx.send('**[E]** | Что-то пошло не так!')
 
         else:
-            channel_db_mention = channel_db.mention or None
+            channel_db_mention = channel_db.mention if channel_db else None
 
             emb = Embed(color=0x6b32a8, title=f'**Настройки** – {title} - :newspaper: __Логирование__',
                         description='Настройка канала логирования для данного сервера.')

@@ -1,7 +1,11 @@
-from terry.bin.src import _bot
+import os
 
-# Bot version
-__version__ = '0.2b1'
+from terry.bin.src.terry import bot
+from dotenv import load_dotenv
+
+load_dotenv()
+bot_token = os.getenv("BOT_TOKEN")
+
 
 # Run bot
-_bot.run(__version__)
+bot.run(bot_token)

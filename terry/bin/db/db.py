@@ -1,12 +1,16 @@
+import os
 import psycopg2
 
-from terry.resources.data.tokens.db_keys import dbHost, dbName, dbPass, dbUser
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 conn = psycopg2.connect(
-    database=dbName,
-    user=dbUser,
-    password=dbPass,
-    host=dbHost
+    database=os.getenv("DB_NAME"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASS"),
+    host=os.getenv("DB_HOST")
 )
 
 cur = conn.cursor()

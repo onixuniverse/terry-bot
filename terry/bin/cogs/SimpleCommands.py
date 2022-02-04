@@ -6,8 +6,8 @@ class SimpleCommands(Cog):
         self.bot = bot
 
     @command()
-    async def ping(self, ctx):
-        await ctx.send(content=f'Pong! {self.bot.latency*1000}ms')
+    async def status(self, ctx):
+        await ctx.send(content=f'Current latency: {self.bot.latency*1000}ms')
 
 
 def setup(bot):

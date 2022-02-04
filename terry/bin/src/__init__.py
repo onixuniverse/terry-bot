@@ -1,1 +1,1 @@
-from .bot import _bot
+from .terry import bot
