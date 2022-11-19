@@ -1,1 +1,0 @@
-from .terry import bot

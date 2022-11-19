@@ -5,7 +5,7 @@ class SimpleCommands(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command()
+    @command(hidden=True)
     async def status(self, ctx):
         await ctx.send(content=f'Current latency: {self.bot.latency*1000}ms')
 
