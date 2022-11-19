@@ -1,0 +1,6 @@
+.idea
+venv
+__pycache__
+config.ini
+googleapi_token.json
+.env
