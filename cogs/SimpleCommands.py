@@ -1,3 +1,4 @@
+from nextcord import slash_command, Interaction
 from nextcord.ext.commands import Cog, command
 
 
@@ -5,9 +6,9 @@ class SimpleCommands(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command(hidden=True)
-    async def status(self, ctx):
-        await ctx.send(content=f'Current latency: {self.bot.latency*1000}ms')
+    @slash_command(force_global=True)
+    async def ping(self, interaction: Interaction):
+        await interaction.response.send_message(f"Pong! {round(self.bot.latency*1000)}ms")
 
 
 def setup(bot):
