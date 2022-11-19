@@ -24,7 +24,7 @@ async def send_log_message(bot, user: Union[Member, User], guild: Guild, event_t
     status = bool(read_config(guild.id, "log_mode"))
 
     if status:
-        channel = await get_channel(bot, guild.id, "log")
+        channel = await get_channel(bot, guild.id, "log_channel_id")
 
         await channel.send(embed=await create_event_embed(event_text, user, color))
 

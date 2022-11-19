@@ -8,7 +8,7 @@ class SimpleCommands(Cog):
 
     @slash_command(force_global=True)
     async def ping(self, interaction: Interaction):
-        await interaction.response.send_message(f"Pong! {round(self.bot.latency*1000)}ms")
+        await interaction.send(f"Pong! {round(self.bot.latency*1000)}ms")
 
 
 def setup(bot):

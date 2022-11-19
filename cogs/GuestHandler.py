@@ -13,7 +13,7 @@ class GuestHandler(Cog):
         guest_status = read_config(member.guild.id, "guest_mode")
 
         if guest_status:
-            role = await get_role(self.bot, member.guild.id, 'guest')
+            role = await get_role(self.bot, member.guild.id, 'guest_role_id')
             if role:
                 reason = 'Роль выдана системой "Гости" by Terry'
 

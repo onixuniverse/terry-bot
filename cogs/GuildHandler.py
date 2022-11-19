@@ -1,4 +1,5 @@
-from nextcord.ext.commands import Cog, command, is_owner
+from nextcord import slash_command, Permissions, Interaction
+from nextcord.ext.commands import Cog, command
 
 from utils.configs import read_all_config, write_config
 
@@ -7,16 +8,15 @@ class GuildHandler(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command(name='addguild', hidden=True)
-    @is_owner()
-    async def add_guild(self, ctx):
+    @slash_command(name="addguild", force_global=True, default_member_permissions=8)
+    async def add_guild(self, interaction: Interaction):
         """Ручное добавление сервера в конфиг-файл"""
-        results = read_all_config(ctx.guild.id)
+        results = read_all_config(interaction.guild.id)
 
         if not results:
-            write_config(ctx.guild.id, "False", "False", "False")
-        elif results:
-            await ctx.send(f'{ctx.message.author.mention}, данный сервер уже зарегистрирован в базе данных бота.')
+            write_config(interaction.guild.id, "False", "False", "False")
+        else:
+            await interaction.response.send_message(':white_check_mark: | Данный сервер уже зарегистрирован! Отлично!')
 
     @Cog.listener()
     async def on_guild_join(self, guild):
